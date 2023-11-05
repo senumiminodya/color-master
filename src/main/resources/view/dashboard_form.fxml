@@ -1,14 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="lk.ijse.colorMaster.controller.DashboardFormController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="832.0" prefWidth="1280.0" style="-fx-background-image: dashboard.jpg;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.colorMaster.controller.DashboardFormController">
+   <children>
+      <ImageView fitHeight="832.0" fitWidth="1280.0" style="-fx-background-color: FFCE68; -fx-background-radius: 30;">
+         <image>
+            <Image url="@../assets/dashboard.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="63.0" layoutY="66.0" prefHeight="700.0" prefWidth="1155.0" style="-fx-background-color: FDEEB3; -fx-background-radius: 30; -fx-opacity: 0.7;">
+         <children>
+            <ImageView fitHeight="114.0" fitWidth="262.0" layoutX="473.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/projectLogo.png" />
+               </image>
+            </ImageView>
+            <AnchorPane layoutX="77.0" layoutY="190.0">
+               <children>
+                  <JFXButton fx:id="customerBtn" alignment="BOTTOM_CENTER" buttonType="RAISED" onAction="#btnCustomerOnAction" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: EE9322; -fx-background-radius: 30; -fx-opacity: 50; -fx-cursor: hand;" text="Customer">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="100.0" fitWidth="98.0" layoutX="31.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/customer.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="498.0" layoutY="190.0">
+               <children>
+                  <JFXButton fx:id="deliveryBtn" alignment="BOTTOM_CENTER" buttonType="RAISED" onAction="#btnDeliveryOnAction" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: EE9322; -fx-background-radius: 30; -fx-opacity: 50; -fx-cursor: hand;" text="Delivery">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="100.0" fitWidth="98.0" layoutX="31.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/delivery.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="288.0" layoutY="190.0">
+               <children>
+                  <JFXButton fx:id="ordersBtn" alignment="BOTTOM_CENTER" buttonType="RAISED" onAction="#btnOrdersOnAction" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: EE9322; -fx-background-radius: 30; -fx-opacity: 50; -fx-cursor: hand;" text="Orders">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="100.0" fitWidth="98.0" layoutX="35.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/orders.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="713.0" layoutY="190.0">
+               <children>
+                  <JFXButton fx:id="driverBtn" alignment="BOTTOM_CENTER" buttonType="RAISED" onAction="#btnDriverOnAction" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: EE9322; -fx-background-radius: 30; -fx-opacity: 50; -fx-cursor: hand;" text="Driver">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="100.0" fitWidth="98.0" layoutX="31.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/driver.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="920.0" layoutY="190.0">
+               <children>
+                  <JFXButton fx:id="supplierBtn" alignment="BOTTOM_CENTER" buttonType="RAISED" onAction="#btnSupplierOnAction" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: EE9322; -fx-background-radius: 30; -fx-opacity: 50; -fx-cursor: hand;" text="Supplier">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="100.0" fitWidth="98.0" layoutX="31.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/supplier.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="393.0" layoutY="397.0">
+               <children>
+                  <JFXButton fx:id="baseStockBtn" alignment="BOTTOM_CENTER" buttonType="RAISED" onAction="#btnBaseStockOnAction" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: EE9322; -fx-background-radius: 30; -fx-opacity: 50; -fx-cursor: hand;" text="BaseStock">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="100.0" fitWidth="98.0" layoutX="31.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/baseStock.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="610.0" layoutY="397.0">
+               <children>
+                  <JFXButton fx:id="paintStockBtn" alignment="BOTTOM_CENTER" buttonType="RAISED" onAction="#btnPaintStockOnAction" prefHeight="160.0" prefWidth="160.0" style="-fx-background-color: EE9322; -fx-background-radius: 30; -fx-opacity: 50; -fx-cursor: hand;" text="PaintStock">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="100.0" fitWidth="98.0" layoutX="31.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/paintStock.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <JFXButton fx:id="logoutBtn" buttonType="RAISED" layoutX="509.0" layoutY="611.0" onAction="#btnLogoutOnAction" prefHeight="43.0" prefWidth="138.0" style="-fx-background-color: D83F31; -fx-cursor: hand;" text="LOG OUT">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
