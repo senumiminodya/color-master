@@ -1,14 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="lk.ijse.colorMaster.controller.DeliveryFormController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="828.0" prefWidth="1245.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.colorMaster.controller.DeliveryFormController">
+    <children>
+        <ImageView fitHeight="858.0" fitWidth="1248.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../assets/deliveryVehicle.jpg" />
+            </image>
+        </ImageView>
+        <AnchorPane layoutX="97.0" layoutY="51.0" prefHeight="736.0" prefWidth="1063.0" style="-fx-background-color: F9B572; -fx-opacity: 0.8; -fx-background-radius: 30;">
+            <children>
+                <Label layoutX="361.0" layoutY="28.0" prefHeight="61.0" prefWidth="315.0" text="DELIVERY FORM">
+                    <font>
+                        <Font name="System Bold" size="34.0" />
+                    </font>
+                </Label>
+                <Label layoutX="118.0" layoutY="132.0" prefHeight="37.0" prefWidth="165.0" text="Vehicle Id:">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label layoutX="679.0" layoutY="132.0" prefHeight="37.0" prefWidth="208.0" text="Owner Name:">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label layoutX="414.0" layoutY="236.0" prefHeight="37.0" prefWidth="236.0" text="Owner PhoneNo:">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <TableView fx:id="tblDelivery" layoutX="49.0" layoutY="436.0" prefHeight="286.0" prefWidth="965.0">
+                    <columns>
+                        <TableColumn fx:id="col_vehicleId" prefWidth="217.0" text="Vehicle Id" />
+                        <TableColumn fx:id="col_ownerName" minWidth="0.0" prefWidth="408.0" text="Owner Name" />
+                        <TableColumn fx:id="col_ownerPhoneNo" minWidth="8.0" prefWidth="339.0" text="Owner PhoneNo" />
+                    </columns>
+                </TableView>
+                <TextField fx:id="txtVehicleId" layoutX="115.0" layoutY="186.0" onAction="#txtVehicleSearchOnAction" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtOwnerName" layoutX="679.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtOwnerPhoneNo" layoutX="397.0" layoutY="282.0" prefHeight="37.0" prefWidth="269.0" />
+                <JFXButton fx:id="saveBtn" buttonType="RAISED" layoutX="158.0" layoutY="376.0" onAction="#btnSaveOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-color: CBFFA9; -fx-background-radius: 10; -fx-cursor: hand;" text="Save">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </JFXButton>
+                <JFXButton fx:id="updateBtn" buttonType="RAISED" layoutX="352.0" layoutY="376.0" onAction="#btnUpdateOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-radius: 10; -fx-background-color: FFD6A5; -fx-cursor: hand;" text="Update">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </JFXButton>
+                <JFXButton fx:id="clearBtn" buttonType="RAISED" layoutX="558.0" layoutY="376.0" onAction="#btnClearOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-radius: 10; -fx-background-color: FF9B9B; -fx-cursor: hand;" text="Clear">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </JFXButton>
+                <JFXButton fx:id="deleteBtn" buttonType="RAISED" layoutX="756.0" layoutY="376.0" onAction="#btnDeleteOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-radius: 10; -fx-background-color: B2C8BA; -fx-cursor: hand;" text="Delete">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </JFXButton>
+                <AnchorPane layoutX="46.0" layoutY="17.0" prefHeight="113.0" prefWidth="113.0">
+                    <children>
+                        <JFXButton fx:id="backBtn" alignment="BOTTOM_CENTER" buttonType="RAISED" layoutY="2.0" onAction="#btnBackOnAction" prefHeight="113.0" prefWidth="113.0" style="-fx-cursor: hand; -fx-background-radius: 50;" text="Back" />
+                        <ImageView fitHeight="79.0" fitWidth="126.0" layoutX="17.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../icon/back.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </children>
 </AnchorPane>

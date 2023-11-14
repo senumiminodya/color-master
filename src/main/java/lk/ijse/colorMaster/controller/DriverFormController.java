@@ -82,7 +82,6 @@ public class DriverFormController {
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
-        System.out.println("BAck On Customer Form");
         Stage window = (Stage)txtDriverName.getScene().getWindow();
         window.close();
 
@@ -111,9 +110,9 @@ public class DriverFormController {
         try {
             boolean isDeleted = model.deleteDriver(id);
             if (isDeleted) {
-                new Alert(Alert.AlertType.CONFIRMATION,"Customer deleted successfully.").show();
+                new Alert(Alert.AlertType.CONFIRMATION,"Driver deleted successfully.").show();
             } else {
-                new Alert(Alert.AlertType.ERROR,"Customer not found.").show();
+                new Alert(Alert.AlertType.ERROR,"Driver not found.").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
@@ -132,10 +131,10 @@ public class DriverFormController {
         try {
             boolean isSaved = model.saveDriver(dto);
             if (isSaved) {
-                new Alert(Alert.AlertType.CONFIRMATION,"Customer saved successfully.").show();
+                new Alert(Alert.AlertType.CONFIRMATION,"Driver saved successfully.").show();
                 clearDriver();
             } else {
-                new Alert(Alert.AlertType.ERROR, "Customer not found.").show();
+                new Alert(Alert.AlertType.ERROR, "Driver not found.").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
@@ -154,10 +153,10 @@ public class DriverFormController {
         try {
             boolean isUpdated = model.updateDriver(dto);
             if (isUpdated) {
-                new Alert(Alert.AlertType.CONFIRMATION,"Customer updated successfully.").show();
+                new Alert(Alert.AlertType.CONFIRMATION,"Driver updated successfully.").show();
                 clearDriver();
             } else {
-                new Alert(Alert.AlertType.ERROR, "Customer not found.").show();
+                new Alert(Alert.AlertType.ERROR, "Driver not found.").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();

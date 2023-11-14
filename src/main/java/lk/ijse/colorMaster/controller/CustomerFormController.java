@@ -86,7 +86,6 @@ public class CustomerFormController {
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
-        System.out.println("BAck On Customer Form");
         Stage window = (Stage)txtName.getScene().getWindow();
         window.close();
 

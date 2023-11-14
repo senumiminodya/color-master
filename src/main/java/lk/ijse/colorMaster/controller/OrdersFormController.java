@@ -4,10 +4,15 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import lk.ijse.colorMaster.model.OrderModel;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class OrdersFormController {
     @FXML
@@ -41,7 +46,25 @@ public class OrdersFormController {
     private TableColumn<?, ?> col_unit_price;
 
     @FXML
-    private Pane pane;
+    private Label lblCustomerName;
+
+    @FXML
+    private Label lblDescription;
+
+    @FXML
+    private Label lblNetTotal;
+
+    @FXML
+    private Label lblOrderDate;
+
+    @FXML
+    private Label lblOrderId;
+
+    @FXML
+    private Label lblQtyOnHand;
+
+    @FXML
+    private Label lblUnitPrice;
 
     @FXML
     private JFXButton placeOrderBtn;
@@ -54,6 +77,15 @@ public class OrdersFormController {
 
     @FXML
     private JFXButton updateBtn;
+    private OrderModel orderModel = new OrderModel();
+    private void generateNextOrderId() {
+        try {
+            String orderId = orderModel.generateNextOrderId();
+            lblOrderId.setText(orderId);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
@@ -61,8 +93,16 @@ public class OrdersFormController {
     }
 
     @FXML
-    void btnBackOnAction(ActionEvent event) {
+    void btnBackOnAction(ActionEvent event) throws IOException {
+        Stage window = (Stage)lblOrderId.getScene().getWindow();
+        window.close();
 
+        Parent load = FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+        Scene scene = new Scene(load);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Dash Board");
+        stage.show();
     }
 
     @FXML

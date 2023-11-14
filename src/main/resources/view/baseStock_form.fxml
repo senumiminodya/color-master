@@ -1,14 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="lk.ijse.colorMaster.controller.BaseStockFormController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="827.0" prefWidth="1238.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.colorMaster.controller.BaseStockFormController">
+    <children>
+        <ImageView fitHeight="828.0" fitWidth="1261.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../assets/baseStock.jpg" />
+            </image>
+        </ImageView>
+        <AnchorPane layoutX="93.0" layoutY="61.0" prefHeight="736.0" prefWidth="1063.0" style="-fx-background-color: F9B572; -fx-opacity: 0.8; -fx-background-radius: 30;">
+            <children>
+                <Label layoutX="400.0" layoutY="34.0" prefHeight="61.0" prefWidth="317.0" text="BASES FORM">
+                    <font>
+                        <Font name="System Bold" size="34.0" />
+                    </font>
+                </Label>
+                <Label layoutX="118.0" layoutY="132.0" prefHeight="37.0" prefWidth="165.0" text="Base Id:">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label layoutX="679.0" layoutY="132.0" prefHeight="37.0" prefWidth="208.0" text="Supplier Name:">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label layoutX="419.0" layoutY="252.0" prefHeight="37.0" prefWidth="236.0" text="Qty:">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label layoutX="115.0" layoutY="252.0" prefHeight="37.0" prefWidth="256.0" text="Size:">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <TableView fx:id="tblBases" layoutX="49.0" layoutY="436.0" prefHeight="286.0" prefWidth="965.0">
+                    <columns>
+                        <TableColumn fx:id="col_id" prefWidth="144.0" text="id" />
+                        <TableColumn fx:id="col_baseType" minWidth="0.0" prefWidth="174.0" text="Base Type" />
+                        <TableColumn fx:id="col_SupplierName" minWidth="6.0" prefWidth="237.0" text="Supplier Name" />
+                        <TableColumn fx:id="col_size" prefWidth="149.0" text="Size" />
+                  <TableColumn fx:id="col_qty" prefWidth="104.0" text="Qty" />
+                  <TableColumn fx:id="col_price" prefWidth="156.0" text="Price" />
+                    </columns>
+                </TableView>
+                <TextField fx:id="txtBaseId" layoutX="115.0" layoutY="186.0" onAction="#txtBaseSearchOnAction" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtBaseqty" layoutX="397.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtBaseSize" layoutX="115.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
+                <JFXButton fx:id="saveBtn" buttonType="RAISED" layoutX="158.0" layoutY="376.0" onAction="#btnSaveOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-color: CBFFA9; -fx-background-radius: 10; -fx-cursor: hand;" text="Save">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </JFXButton>
+                <JFXButton fx:id="updateBtn" buttonType="RAISED" layoutX="352.0" layoutY="376.0" onAction="#btnUpdateOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-radius: 10; -fx-background-color: FFD6A5; -fx-cursor: hand;" text="Update">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </JFXButton>
+                <JFXButton fx:id="clearBtn" buttonType="RAISED" layoutX="558.0" layoutY="376.0" onAction="#btnClearOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-radius: 10; -fx-background-color: FF9B9B; -fx-cursor: hand;" text="Clear">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </JFXButton>
+                <JFXButton fx:id="deleteBtn" buttonType="RAISED" layoutX="756.0" layoutY="376.0" onAction="#btnDeleteOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-radius: 10; -fx-background-color: B2C8BA; -fx-cursor: hand;" text="Delete">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </JFXButton>
+                <AnchorPane layoutX="46.0" layoutY="17.0" prefHeight="113.0" prefWidth="113.0">
+                    <children>
+                        <JFXButton fx:id="backBtn" alignment="BOTTOM_CENTER" buttonType="RAISED" layoutY="2.0" onAction="#btnBackOnAction" prefHeight="113.0" prefWidth="113.0" style="-fx-cursor: hand; -fx-background-radius: 50;" text="Back" />
+                        <ImageView fitHeight="79.0" fitWidth="126.0" layoutX="17.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../icon/back.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </AnchorPane>
+            <Label layoutX="419.0" layoutY="132.0" prefHeight="37.0" prefWidth="165.0" text="Base Type:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtBaseType" layoutX="397.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
+            <ComboBox fx:id="cmbSupplierName" layoutX="679.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
+            <Label layoutX="679.0" layoutY="258.0" prefHeight="37.0" prefWidth="236.0" text="Price:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtBasePrice" layoutX="679.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
+            </children>
+        </AnchorPane>
+    </children>
 </AnchorPane>

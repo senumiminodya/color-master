@@ -68,7 +68,6 @@ public class SupplierFormController {
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
-        System.out.println("Back On Supplier Form");
         Stage window = (Stage)txtSupplierName.getScene().getWindow();
         window.close();
 

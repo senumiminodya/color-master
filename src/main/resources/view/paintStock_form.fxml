@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,21 +11,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="828.0" prefWidth="1245.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.colorMaster.controller.CustomerFormController">
+<AnchorPane prefHeight="828.0" prefWidth="1245.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.colorMaster.controller.PaintStockFormController">
     <children>
         <ImageView fitHeight="858.0" fitWidth="1248.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../assets/paintStock.jpg" />
             </image>
         </ImageView>
-        <AnchorPane layoutX="97.0" layoutY="51.0" prefHeight="736.0" prefWidth="1063.0" style="-fx-background-color: F9B572; -fx-opacity: 0.8; -fx-background-radius: 30;">
+        <AnchorPane layoutX="93.0" layoutY="48.0" prefHeight="736.0" prefWidth="1063.0" style="-fx-background-color: F9B572; -fx-opacity: 0.8; -fx-background-radius: 30;">
             <children>
                 <Label layoutX="344.0" layoutY="29.0" prefHeight="61.0" prefWidth="375.0" text="PAINT ITEMS FORM">
                     <font>
                         <Font name="System Bold" size="34.0" />
                     </font>
                 </Label>
-                <Label layoutX="118.0" layoutY="132.0" prefHeight="37.0" prefWidth="165.0" text="Paint Item Id:">
+                <Label layoutX="118.0" layoutY="132.0" prefHeight="37.0" prefWidth="165.0" text="Item Id:">
                     <font>
                         <Font size="24.0" />
                     </font>
@@ -39,23 +40,23 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Label layoutX="679.0" layoutY="252.0" prefHeight="37.0" prefWidth="256.0" text="Base Id:">
+                <Label layoutX="756.0" layoutY="252.0" prefHeight="37.0" prefWidth="121.0" text="Base Id:">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <TableView fx:id="tblDriver" layoutX="49.0" layoutY="436.0" prefHeight="286.0" prefWidth="965.0">
+                <TableView fx:id="tblPaintItems" layoutX="49.0" layoutY="436.0" prefHeight="286.0" prefWidth="965.0">
                     <columns>
-                        <TableColumn fx:id="col_id" prefWidth="121.0" text="id" />
-                        <TableColumn fx:id="col_name" minWidth="0.0" prefWidth="240.0" text="name" />
-                        <TableColumn fx:id="col_address" minWidth="6.0" prefWidth="279.0" text="address" />
-                        <TableColumn fx:id="col_phoneNo" prefWidth="324.0" text="phone no." />
+                        <TableColumn fx:id="col_itemId" prefWidth="96.0" text="Item Id" />
+                        <TableColumn fx:id="col_ItemName" minWidth="0.0" prefWidth="211.0" text="Item Name" />
+                        <TableColumn fx:id="col_ItemType" minWidth="6.0" prefWidth="153.0" text="Item Type" />
+                        <TableColumn fx:id="col_size" prefWidth="87.0" text="Size" />
+                  <TableColumn fx:id="col_qty" prefWidth="152.0" text="Qty" />
+                  <TableColumn fx:id="col_price" prefWidth="130.0" text="Price" />
+                  <TableColumn fx:id="col_baseId" prefWidth="134.0" text="Base Id" />
                     </columns>
                 </TableView>
-                <TextField fx:id="driverId" layoutX="115.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
-                <TextField fx:id="driverPhoneNo" layoutX="679.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
-                <TextField fx:id="driverName" layoutX="679.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
-                <TextField fx:id="driverAddress" layoutX="115.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtItemId" layoutX="115.0" layoutY="186.0" onAction="#itemIdSearchOnAction" prefHeight="37.0" prefWidth="269.0" />
                 <JFXButton fx:id="saveBtn" buttonType="RAISED" layoutX="158.0" layoutY="376.0" onAction="#btnSaveOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-color: CBFFA9; -fx-background-radius: 10; -fx-cursor: hand;" text="Save">
                     <font>
                         <Font name="System Bold" size="14.0" />
@@ -91,13 +92,22 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="driverName1" layoutX="397.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
-            <Label layoutX="397.0" layoutY="252.0" prefHeight="37.0" prefWidth="208.0" text="Qty:">
+            <TextField fx:id="txtItemName" layoutX="397.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
+            <Label layoutX="283.0" layoutY="252.0" prefHeight="37.0" prefWidth="68.0" text="Qty:">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="driverName11" layoutX="397.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
+            <TextField fx:id="txtItemPrice" layoutX="486.0" layoutY="302.0" prefHeight="37.0" prefWidth="221.0" />
+            <TextField fx:id="txtItemQty" layoutX="283.0" layoutY="302.0" prefHeight="37.0" prefWidth="149.0" />
+            <Label layoutX="486.0" layoutY="252.0" prefHeight="37.0" prefWidth="187.0" text="Item Price:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cmbBaseId" layoutX="755.0" layoutY="302.0" prefHeight="37.0" prefWidth="187.0" />
+            <ComboBox fx:id="cmbItemType" layoutX="673.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
+            <ComboBox fx:id="cmbItemSize" layoutX="115.0" layoutY="302.0" prefHeight="37.0" prefWidth="158.0" />
             </children>
         </AnchorPane>
     </children>
