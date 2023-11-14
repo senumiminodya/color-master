@@ -76,7 +76,7 @@ public class BaseStockModel {
             String supId = resultSet.getString(3);
             String size = resultSet.getString(4);
             int qty = resultSet.getInt(5);
-            Double price = resultSet.getDouble(6);
+            double price = resultSet.getDouble(6);
 
             dto = new BaseStockDto(baseId, type, supId, size, qty, price);
         }

@@ -109,9 +109,9 @@ public class BaseStockFormController {
         try {
             boolean isDeleted = model.deleteBase(id);
             if (isDeleted) {
-                new Alert(Alert.AlertType.CONFIRMATION,"Customer deleted successfully.").show();
+                new Alert(Alert.AlertType.CONFIRMATION,"Base deleted successfully.").show();
             } else {
-                new Alert(Alert.AlertType.ERROR,"Customer not found.").show();
+                new Alert(Alert.AlertType.ERROR,"Base not found.").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
