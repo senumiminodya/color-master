@@ -3,9 +3,20 @@ package lk.ijse.colorMaster.controller;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import lk.ijse.colorMaster.dto.CustomerDto;
+import lk.ijse.colorMaster.dto.DriverDto;
+import lk.ijse.colorMaster.model.DriverModel;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class DriverFormController {
     @FXML
@@ -30,16 +41,16 @@ public class DriverFormController {
     private JFXButton deleteBtn;
 
     @FXML
-    private TextField driverAddress;
+    private TextField txtDriverAddress;
 
     @FXML
-    private TextField driverId;
+    private TextField txtDriverId;
 
     @FXML
-    private TextField driverName;
+    private TextField txtDriverName;
 
     @FXML
-    private TextField driverPhoneNo;
+    private TextField txtDriverPhoneNo;
 
     @FXML
     private JFXButton saveBtn;
@@ -49,29 +60,107 @@ public class DriverFormController {
 
     @FXML
     private JFXButton updateBtn;
+    private DriverModel model = new DriverModel();
 
     @FXML
-    void btnBackOnAction(ActionEvent event) {
+    void txtDriverSearchOnAction(ActionEvent event) {
+        String id = txtDriverId.getText();
+        String name = txtDriverName.getText();
+        String address = txtDriverAddress.getText();
+        String phoneNo = txtDriverPhoneNo.getText();
 
+        try {
+            DriverDto dto = model.searchDriver(id);
+            txtDriverId.setText(dto.getDriverId());
+            txtDriverName.setText(dto.getName());
+            txtDriverAddress.setText(dto.getAddress());
+            txtDriverPhoneNo.setText(dto.getPhoneNo());
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        }
+    }
+
+    @FXML
+    void btnBackOnAction(ActionEvent event) throws IOException {
+        System.out.println("BAck On Customer Form");
+        Stage window = (Stage)txtDriverName.getScene().getWindow();
+        window.close();
+
+        Parent load = FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+        Scene scene = new Scene(load);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Dash Board");
+        stage.show();
     }
 
     @FXML
     void btnClearOnAction(ActionEvent event) {
-
+        clearDriver();
     }
 
+    private void clearDriver() {
+        txtDriverId.clear();
+        txtDriverName.clear();
+        txtDriverAddress.clear();
+        txtDriverPhoneNo.clear();
+    }
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-
+        String id = txtDriverId.getText();
+        try {
+            boolean isDeleted = model.deleteDriver(id);
+            if (isDeleted) {
+                new Alert(Alert.AlertType.CONFIRMATION,"Customer deleted successfully.").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR,"Customer not found.").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        }
     }
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
+        String id = txtDriverId.getText();
+        String name = txtDriverName.getText();
+        String address = txtDriverAddress.getText();
+        String phoneNo = txtDriverPhoneNo.getText();
 
+        DriverDto dto = new DriverDto(id, name, address, phoneNo);
+
+        try {
+            boolean isSaved = model.saveDriver(dto);
+            if (isSaved) {
+                new Alert(Alert.AlertType.CONFIRMATION,"Customer saved successfully.").show();
+                clearDriver();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Customer not found.").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        }
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        String id = txtDriverId.getText();
+        String name = txtDriverName.getText();
+        String address = txtDriverAddress.getText();
+        String phoneNo = txtDriverPhoneNo.getText();
 
+        DriverDto dto = new DriverDto(id, name, address, phoneNo);
+
+        try {
+            boolean isUpdated = model.updateDriver(dto);
+            if (isUpdated) {
+                new Alert(Alert.AlertType.CONFIRMATION,"Customer updated successfully.").show();
+                clearDriver();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Customer not found.").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        }
     }
 }

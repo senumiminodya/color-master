@@ -52,10 +52,10 @@
                         <TableColumn fx:id="col_phoneNo" prefWidth="324.0" text="phone no." />
                     </columns>
                 </TableView>
-                <TextField fx:id="driverId" layoutX="115.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
-                <TextField fx:id="driverPhoneNo" layoutX="679.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
-                <TextField fx:id="driverName" layoutX="679.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
-                <TextField fx:id="driverAddress" layoutX="115.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtDriverId" layoutX="115.0" layoutY="186.0" onAction="#txtDriverSearchOnAction" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtDriverPhoneNo" layoutX="679.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtDriverName" layoutX="679.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtDriverAddress" layoutX="115.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
                 <JFXButton fx:id="saveBtn" buttonType="RAISED" layoutX="158.0" layoutY="376.0" onAction="#btnSaveOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-color: CBFFA9; -fx-background-radius: 10; -fx-cursor: hand;" text="Save">
                     <font>
                         <Font name="System Bold" size="14.0" />
