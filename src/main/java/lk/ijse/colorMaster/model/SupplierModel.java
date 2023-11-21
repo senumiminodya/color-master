@@ -1,14 +1,13 @@
 package lk.ijse.colorMaster.model;
 
 import lk.ijse.colorMaster.db.DbConnection;
-import lk.ijse.colorMaster.dto.CustomerDto;
-import lk.ijse.colorMaster.dto.DriverDto;
 import lk.ijse.colorMaster.dto.SupplierDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SupplierModel {
     public boolean deleteSupplier(String id) throws SQLException {
@@ -70,5 +69,26 @@ public class SupplierModel {
             dto = new SupplierDto(supId, supName, supPhoneNo, product);
         }
         return dto;
+    }
+    public ArrayList<SupplierDto> getAllSupplier() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM supplier";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        ResultSet resultSet = pstm.executeQuery();
+
+        ArrayList<SupplierDto> dtoList = new ArrayList<>();
+
+        while (resultSet.next()) {
+            dtoList.add(
+                    new SupplierDto(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getString(4)
+                    )
+            );
+        }
+        return dtoList;
     }
 }

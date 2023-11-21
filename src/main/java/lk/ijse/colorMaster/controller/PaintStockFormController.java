@@ -1,18 +1,30 @@
 package lk.ijse.colorMaster.controller;
 import com.jfoenix.controls.JFXButton;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import lk.ijse.colorMaster.dto.BaseStockDto;
+import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.PaintStockDto;
+import lk.ijse.colorMaster.dto.cm.BaseCm;
+import lk.ijse.colorMaster.dto.cm.SupplierCm;
+import lk.ijse.colorMaster.dto.tm.CustomerTm;
+import lk.ijse.colorMaster.dto.tm.ItemTm;
+import lk.ijse.colorMaster.model.BaseStockModel;
 import lk.ijse.colorMaster.model.PaintStockModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PaintStockFormController {
     @FXML
@@ -22,7 +34,7 @@ public class PaintStockFormController {
     private JFXButton clearBtn;
 
     @FXML
-    private ComboBox<String> cmbBaseId;
+    private ComboBox<BaseCm> cmbBaseId;
 
     @FXML
     private ComboBox<String> cmbItemSize;
@@ -58,7 +70,7 @@ public class PaintStockFormController {
     private JFXButton saveBtn;
 
     @FXML
-    private TableView<?> tblPaintItems;
+    private TableView<ItemTm> tblPaintItems;
 
     @FXML
     private TextField txtItemId;
@@ -76,6 +88,76 @@ public class PaintStockFormController {
     private JFXButton updateBtn;
 
     private PaintStockModel model = new PaintStockModel();
+    private BaseStockModel baseStockModel = new BaseStockModel();
+
+    public void initialize() {
+        cmbBaseId.setConverter(new StringConverter<BaseCm>() {
+            @Override
+            public String toString(BaseCm baseCm) {
+                return baseCm==null ? "" : baseCm.getId();
+            }
+
+            @Override
+            public BaseCm fromString(String s) {
+                return null;
+            }
+        });
+        setComboBox();
+        setItemTypeComboBox();
+        setItemSizeComboBox();
+        loadAllBaseIds();
+        loadAllItems();
+        setCellValueFactory();
+    }
+
+    private void loadAllItems() {
+        ObservableList<ItemTm> obList = FXCollections.observableArrayList();
+        try {
+            List<PaintStockDto> allPaintDto = model.getAllPaints();
+            for (PaintStockDto dto : allPaintDto) {
+                obList.add(
+                        new ItemTm(
+                                dto.getId(),
+                                dto.getName(),
+                                dto.getType(),
+                                dto.getSize(),
+                                dto.getQty(),
+                                dto.getPrice(),
+                                dto.getBaseId()
+                        )
+                );
+            }
+            tblPaintItems.setItems(obList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setCellValueFactory() {
+        col_itemId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        col_ItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        col_ItemType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        col_size.setCellValueFactory(new PropertyValueFactory<>("size"));
+        col_qty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        col_baseId.setCellValueFactory(new PropertyValueFactory<>("baseId"));
+    }
+
+    private void loadAllBaseIds() {
+        ObservableList<String> obList = FXCollections.observableArrayList();
+
+        try {
+            List<BaseStockDto> idList = baseStockModel.getAllBases();
+
+            /*for (BaseStockDto dto : idList) {
+                obList.add(dto.getId());
+            }*/
+
+            //cmbBaseId.setItems(obList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
@@ -128,9 +210,9 @@ public class PaintStockFormController {
         String size = (String) cmbItemSize.getValue();
         int qty = Integer.parseInt(txtItemQty.getText());
         double price = Double.parseDouble(txtItemPrice.getText());
-        String baseId = (String) cmbBaseId.getValue();
+        String baseId = cmbBaseId.getValue().getId();
 
-        PaintStockDto dto = new PaintStockDto(id, name, type, size, qty, price, baseId);
+        PaintStockDto dto = new PaintStockDto(id, name, type, baseId, size, qty, price);
 
         try {
             boolean isSaved = model.savePaint(dto);
@@ -153,9 +235,9 @@ public class PaintStockFormController {
         String size = (String) cmbItemSize.getValue();
         int qty = Integer.parseInt(txtItemQty.getText());
         double price = Double.parseDouble(txtItemPrice.getText());
-        String baseId = (String) cmbBaseId.getValue();
+        String baseId =  cmbBaseId.getValue().getId();
 
-        PaintStockDto dto = new PaintStockDto(id, name, type, size, qty, price, baseId);
+        PaintStockDto dto = new PaintStockDto(id, name, type, baseId, size, qty, price);
 
         try {
             boolean isUpdated = model.updatePaint(dto);
@@ -182,10 +264,16 @@ public class PaintStockFormController {
                 txtItemId.setText(dto.getId());
                 txtItemName.setText(dto.getName());
                 cmbItemType.setValue(dto.getType());
-                cmbItemSize.setValue(dto.getType());
+                cmbItemSize.setValue(dto.getSize());
                 txtItemQty.setText(String.valueOf(dto.getQty()));
                 txtItemPrice.setText(String.valueOf(dto.getPrice()));
-                cmbBaseId.setValue(dto.getBaseId());
+                //cmbBaseId.setValue(dto.getBaseId());
+                for (int i = 0; i < cmbBaseId.getItems().size(); i++) {
+                    if (cmbBaseId.getItems().get(i).getId().equals(dto.getBaseId())) {
+                        cmbBaseId.getSelectionModel().select(i);
+                        break;
+                    }
+                }
             } else {
                 new Alert(Alert.AlertType.INFORMATION,"Paint not found!!").show();
             }
@@ -193,4 +281,47 @@ public class PaintStockFormController {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
         }
     }
+
+    public void setComboBox() {
+        try {
+            List<BaseStockDto> allBases = baseStockModel.getAllBases();
+            ArrayList<BaseCm> objects = new ArrayList<>();
+            for (BaseStockDto ob : allBases) {
+                BaseCm baseCm = new BaseCm();
+                baseCm.setId(ob.getId());
+                baseCm.setType(ob.getType());
+                baseCm.setSupName(ob.getSupName());
+                baseCm.setSize(ob.getSize());
+                baseCm.setQty(ob.getQty());
+                baseCm.setPrice(ob.getPrice());
+                objects.add(baseCm);
+            }
+            cmbBaseId.setItems(FXCollections.observableArrayList(objects));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setItemTypeComboBox() {
+        String[] itemType = {"Pentalite", "Weathershield"};
+        ObservableList<String> obList = FXCollections.observableArrayList();
+        obList.add(itemType[0]);
+        obList.add(itemType[1]);
+        cmbItemType.setItems(obList);
+    }
+
+    public void setItemSizeComboBox() {
+        String[] itemType = {"1 L", "4 L", "10 L", "20 L"};
+        ObservableList<String> obList = FXCollections.observableArrayList();
+        obList.add(itemType[0]);
+        obList.add(itemType[1]);
+        obList.add(itemType[2]);
+        obList.add(itemType[3]);
+        cmbItemSize.setItems(obList);
+    }
+    @FXML
+    void cmbBaseIdOnAction(ActionEvent event) throws SQLException {
+
+    }
+
 }

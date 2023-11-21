@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="lk.ijse.colorMaster.controller.SigninFormController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="832.0" prefWidth="1280.0" style="-fx-background-color: #ded58c; -fx-border-radius: 30;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.colorMaster.controller.SigninFormController">
+   <children>
+      <ImageView fitHeight="802.0" fitWidth="820.0" layoutX="457.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/signin.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="100.0" fitWidth="197.0" layoutX="126.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/projectLogo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="73.0" layoutY="164.0" prefHeight="36.0" prefWidth="311.0" text="Create an account">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="signInBtn" buttonType="RAISED" layoutX="45.0" layoutY="604.0" onAction="#btnSignInOnAction" prefHeight="34.0" prefWidth="367.0" style="-fx-background-radius: 50; -fx-background-color: #d0af60; -fx-cursor: hand;" text="Sign In">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="119.0" layoutY="211.0" prefHeight="34.0" prefWidth="221.0" text="Let's get started!">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtName" layoutX="45.0" layoutY="328.0" prefHeight="34.0" prefWidth="367.0" promptText="A.B.C.Perera" style="-fx-background-radius: 30;" />
+      <TextField fx:id="txtEmail" layoutX="45.0" layoutY="429.0" prefHeight="34.0" prefWidth="367.0" promptText="perera@gmail.com" style="-fx-background-radius: 30;" />
+      <Label layoutX="51.0" layoutY="284.0" prefHeight="34.0" prefWidth="75.0" text="Name">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="382.0" prefHeight="34.0" prefWidth="75.0" text="Email">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="483.0" prefHeight="34.0" prefWidth="107.0" text="Password">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="txtPw" layoutX="45.0" layoutY="525.0" prefHeight="34.0" prefWidth="367.0" style="-fx-background-radius: 30;" />
+      <Label layoutX="70.0" layoutY="687.0" prefHeight="34.0" prefWidth="252.0" text=" Already have an account?">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtLogIn" layoutX="322.0" layoutY="687.0" onMouseClicked="#txtLogInOnAction" prefHeight="34.0" prefWidth="75.0" style="-fx-cursor: hand;" text="Log in" underline="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>

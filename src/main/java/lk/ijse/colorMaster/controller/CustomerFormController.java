@@ -1,6 +1,8 @@
 package lk.ijse.colorMaster.controller;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,15 +10,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import lk.ijse.colorMaster.dto.CustomerDto;
+import lk.ijse.colorMaster.dto.tm.CustomerTm;
 import lk.ijse.colorMaster.model.CustomerModel;
+import lk.ijse.colorMaster.util.Regex;
+import lk.ijse.colorMaster.util.TextFields;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class CustomerFormController {
     @FXML
@@ -38,6 +47,15 @@ public class CustomerFormController {
     private TableColumn<?, ?> col_phoneNo;
 
     @FXML
+    private JFXButton deleteBtn;
+
+    @FXML
+    private JFXButton saveBtn;
+
+    @FXML
+    private TableView<CustomerTm> tblCustomer;
+
+    @FXML
     private TextField txtAddress;
 
     @FXML
@@ -50,16 +68,42 @@ public class CustomerFormController {
     private TextField txtPhoneNo;
 
     @FXML
-    private JFXButton deleteBtn;
-
-    @FXML
-    private JFXButton saveBtn;
-
-    @FXML
     private JFXButton updateBtn;
 
     private CustomerModel model = new CustomerModel();
     private AnchorPane root;
+
+    public void initialize() {
+        setCellValueFactory();
+        loadAllCustomer();
+    }
+
+    private void loadAllCustomer() {
+        ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
+        try {
+            List<CustomerDto> allCustomerDto = model.getAllCustomer();
+            for (CustomerDto dto : allCustomerDto) {
+                obList.add(
+                        new CustomerTm(
+                            dto.getId(),
+                            dto.getName(),
+                            dto.getAddress(),
+                            dto.getPhoneNo()
+                        )
+                );
+            }
+            tblCustomer.setItems(obList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setCellValueFactory() {
+        col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        col_address.setCellValueFactory(new PropertyValueFactory<>("address"));
+        col_phoneNo.setCellValueFactory(new PropertyValueFactory<>("phoneNo"));
+    }
 
     @FXML
     void customerSearchOnAction(ActionEvent event) {
@@ -126,6 +170,12 @@ public class CustomerFormController {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
+
+        if (!validate()){
+            new Alert(Alert.AlertType.ERROR,"Invalid Input").show();
+            return;
+        }
+
         String id = txtId.getText();
         String name = txtName.getText();
         String address = txtAddress.getText();
@@ -167,4 +217,29 @@ public class CustomerFormController {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
         }
     }
+
+    public void txtCustomerIdOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(TextFields.ID, txtId);
+    }
+
+    public void txtCustomerPhoneOnKeyRelesed(KeyEvent keyEvent) {
+        Regex.setTextColor(TextFields.PHONE, txtPhoneNo);
+    }
+
+    public void txtCustomerNameOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(TextFields.NAME, txtName);
+    }
+
+    public void txtCustomerAddressOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(TextFields.ADDRESS,txtAddress);
+    }
+
+
+    public boolean validate(){
+        return Regex.setTextColor(TextFields.ID, txtId)
+                && Regex.setTextColor(TextFields.NAME, txtName)
+                && Regex.setTextColor(TextFields.PHONE, txtPhoneNo)
+                && Regex.setTextColor(TextFields.ADDRESS,txtAddress);
+    }
+
 }

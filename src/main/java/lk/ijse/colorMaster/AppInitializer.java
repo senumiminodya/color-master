@@ -12,9 +12,9 @@ public class AppInitializer extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/dashboard_form.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/login_form.fxml"))));
         stage.centerOnScreen();
-        stage.setTitle("Dashboard");
+        stage.setTitle("Log In Form");
 
         stage.show();
     }

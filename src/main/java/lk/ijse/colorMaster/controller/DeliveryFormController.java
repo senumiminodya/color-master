@@ -1,5 +1,7 @@
 package lk.ijse.colorMaster.controller;
 import com.jfoenix.controls.JFXButton;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +11,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lk.ijse.colorMaster.dto.DeliveryDto;
 import lk.ijse.colorMaster.dto.DriverDto;
+import lk.ijse.colorMaster.dto.tm.DeliveryTm;
 import lk.ijse.colorMaster.model.DeliveryModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class DeliveryFormController {
     @FXML
@@ -40,7 +45,7 @@ public class DeliveryFormController {
     private JFXButton saveBtn;
 
     @FXML
-    private TableView<?> tblDelivery;
+    private TableView<DeliveryTm> tblDelivery;
 
     @FXML
     private TextField txtOwnerName;
@@ -55,6 +60,37 @@ public class DeliveryFormController {
     private JFXButton updateBtn;
 
     private DeliveryModel model = new DeliveryModel();
+
+    public void initialize() {
+        loadAllVehicles();
+        setCellValueFactory();
+    }
+
+    private void loadAllVehicles() {
+        ObservableList<DeliveryTm> obList = FXCollections.observableArrayList();
+        try {
+            List<DeliveryDto> allVehicleDto = model.getAllVehicle();
+            for (DeliveryDto dto : allVehicleDto) {
+                obList.add(
+                        new DeliveryTm(
+                                dto.getId(),
+                                dto.getOwnerName(),
+                                dto.getOwnerPhoneNo()
+                        )
+                );
+            }
+            tblDelivery.setItems(obList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void setCellValueFactory() {
+        col_vehicleId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        col_ownerName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        col_ownerPhoneNo.setCellValueFactory(new PropertyValueFactory<>("phoneNo"));
+    }
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {

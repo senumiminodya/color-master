@@ -1,6 +1,7 @@
 package lk.ijse.colorMaster.model;
 
 import lk.ijse.colorMaster.db.DbConnection;
+import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.DeliveryDto;
 import lk.ijse.colorMaster.dto.DriverDto;
 
@@ -8,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeliveryModel {
     public DeliveryDto searchVehicle(String id) throws SQLException {
@@ -64,5 +67,26 @@ public class DeliveryModel {
 
         boolean isUpdated = pstm.executeUpdate()>0;
         return isUpdated;
+    }
+
+    public List<DeliveryDto> getAllVehicle() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM vehicle";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        ResultSet resultSet = pstm.executeQuery();
+
+        ArrayList<DeliveryDto> dtoList = new ArrayList<>();
+
+        while(resultSet.next()) {
+            dtoList.add(
+                    new DeliveryDto(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3)
+                    )
+            );
+        }
+        return dtoList;
     }
 }

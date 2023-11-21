@@ -94,7 +94,7 @@
                </font>
             </Label>
             <TextField fx:id="txtBaseType" layoutX="397.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
-            <ComboBox fx:id="cmbSupplierName" layoutX="679.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
+            <ComboBox fx:id="cmbSupplierName" layoutX="679.0" layoutY="186.0" onAction="#cmbSupplierOnAction" prefHeight="37.0" prefWidth="269.0" />
             <Label layoutX="679.0" layoutY="258.0" prefHeight="37.0" prefWidth="236.0" text="Price:">
                <font>
                   <Font size="24.0" />

@@ -3,6 +3,7 @@ package lk.ijse.colorMaster.dto;
 import lk.ijse.colorMaster.dto.tm.CartTm;
 import lombok.*;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,8 @@ import java.util.List;
 @ToString
 public class OrderDto {
     private String orderId;
-    private LocalDate date;
+    private Date date;
     private String customerId;
-    private List<CartTm> cartTmList = new ArrayList<>();
+    private double total;
+    private List<OrderPaintDetailsDTO> cartTmList = new ArrayList<>();
 }

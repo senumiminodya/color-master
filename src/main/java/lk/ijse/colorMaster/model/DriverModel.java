@@ -1,12 +1,15 @@
 package lk.ijse.colorMaster.model;
 
 import lk.ijse.colorMaster.db.DbConnection;
+import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.DriverDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DriverModel {
     public DriverDto searchDriver(String id) throws SQLException {
@@ -64,5 +67,26 @@ public class DriverModel {
 
         boolean isUpdated = pstm.executeUpdate()>0;
         return isUpdated;
+    }
+    public List<DriverDto> getAllDriver() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM driver";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        ResultSet resultSet = pstm.executeQuery();
+
+        ArrayList<DriverDto> dtoList = new ArrayList<>();
+
+        while(resultSet.next()) {
+            dtoList.add(
+                    new DriverDto(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getString(4)
+                    )
+            );
+        }
+        return dtoList;
     }
 }

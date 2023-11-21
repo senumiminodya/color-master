@@ -1,6 +1,5 @@
 package lk.ijse.colorMaster.dto.tm;
 
-import javafx.scene.control.Button;
 import lombok.*;
 
 @Setter
@@ -8,11 +7,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CartTm {
+public class DriverTm {
     private String id;
     private String name;
-    private double price;
-    private int qty;
-    private double total;
-    private Button action;
+    private String address;
+    private String phoneNo;
 }

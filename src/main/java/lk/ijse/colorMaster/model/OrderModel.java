@@ -1,6 +1,7 @@
 package lk.ijse.colorMaster.model;
 
 import lk.ijse.colorMaster.db.DbConnection;
+import lk.ijse.colorMaster.dto.OrderDto;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -31,16 +32,45 @@ public class OrderModel {
         }
     }
 
-    public boolean saveOrder(String orderId, String customerId, LocalDate date) throws SQLException {
+    private static boolean saveOrder(OrderDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "INSERT INTO orders VALUES(?, ?, ?)";
+        String sql = "INSERT INTO orders VALUES(?, ?, ?,?)";
         PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, orderId);
-        pstm.setString(2, customerId);
-        pstm.setDate(3, Date.valueOf(date));
+        pstm.setString(1, dto.getOrderId());
+        pstm.setString(2, dto.getCustomerId());
+        pstm.setDouble(3, dto.getTotal());
+        pstm.setDate(4, dto.getDate());
 
         return pstm.executeUpdate() > 0;
     }
+
+    public static boolean saveOrderDetails(OrderDto dto) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        connection.setAutoCommit(false);
+        try {
+            boolean isOrderSaved = saveOrder(dto);
+            if (isOrderSaved){
+                boolean isAllSaved = OrderDetailsModel.saveOrderDetails(dto.getCartTmList());
+                if (isAllSaved){
+                    boolean isAllUpdated = PaintStockModel.updateQty(dto.getCartTmList());
+                    if (isAllUpdated){
+                        connection.commit();
+                        return true;
+                    }
+
+                }
+            }
+
+            connection.rollback();
+        } catch (Exception e) {
+            e.printStackTrace();
+            connection.rollback();
+        }finally {
+            connection.setAutoCommit(true);
+        }
+        return false;
+    }
+
 
 }

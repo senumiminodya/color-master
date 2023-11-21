@@ -1,6 +1,8 @@
 package lk.ijse.colorMaster.controller;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,13 +12,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.DriverDto;
+import lk.ijse.colorMaster.dto.tm.DriverTm;
 import lk.ijse.colorMaster.model.DriverModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class DriverFormController {
     @FXML
@@ -56,11 +60,43 @@ public class DriverFormController {
     private JFXButton saveBtn;
 
     @FXML
-    private TableView<?> tblDriver;
+    private TableView<DriverTm> tblDriver;
 
     @FXML
     private JFXButton updateBtn;
     private DriverModel model = new DriverModel();
+
+    public void initialize() {
+        setCellValueFactory();
+        loadAllDrivers();
+    }
+
+    private void loadAllDrivers() {
+        ObservableList<DriverTm> obList = FXCollections.observableArrayList();
+        try {
+            List<DriverDto> allDriverDto = model.getAllDriver();
+            for (DriverDto dto : allDriverDto) {
+                obList.add(
+                        new DriverTm(
+                                dto.getDriverId(),
+                                dto.getName(),
+                                dto.getAddress(),
+                                dto.getPhoneNo()
+                        )
+                );
+            }
+            tblDriver.setItems(obList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setCellValueFactory() {
+        col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        col_address.setCellValueFactory(new PropertyValueFactory<>("address"));
+        col_phoneNo.setCellValueFactory(new PropertyValueFactory<>("phoneNo"));
+    }
 
     @FXML
     void txtDriverSearchOnAction(ActionEvent event) {

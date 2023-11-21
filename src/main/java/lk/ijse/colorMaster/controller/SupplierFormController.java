@@ -1,6 +1,8 @@
 package lk.ijse.colorMaster.controller;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,15 +12,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dto.CustomerDto;
-import lk.ijse.colorMaster.dto.DriverDto;
 import lk.ijse.colorMaster.dto.SupplierDto;
-import lk.ijse.colorMaster.model.CustomerModel;
+import lk.ijse.colorMaster.dto.tm.SupplierTm;
 import lk.ijse.colorMaster.model.SupplierModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class SupplierFormController {
@@ -27,9 +29,6 @@ public class SupplierFormController {
 
     @FXML
     private JFXButton clearBtn;
-
-    @FXML
-    private TableColumn<?, ?> col_address;
 
     @FXML
     private TableColumn<?, ?> col_id;
@@ -41,13 +40,16 @@ public class SupplierFormController {
     private TableColumn<?, ?> col_phoneNo;
 
     @FXML
+    private TableColumn<?, ?> col_product;
+
+    @FXML
     private JFXButton deleteBtn;
 
     @FXML
     private JFXButton saveBtn;
 
     @FXML
-    private TableView<?> tblSupplier;
+    private TableView<SupplierTm> tblSupplier;
 
     @FXML
     private TextField txtSupplierId;
@@ -65,6 +67,38 @@ public class SupplierFormController {
     private JFXButton updateBtn;
 
     private SupplierModel model = new SupplierModel();
+
+    public void initialize() {
+        setCellValueFactory();
+        loadAllSuppliers();
+    }
+
+    private void loadAllSuppliers() {
+        ObservableList<SupplierTm> obList = FXCollections.observableArrayList();
+        try {
+            List<SupplierDto> allSupplierDto = model.getAllSupplier();
+            for (SupplierDto dto : allSupplierDto) {
+                obList.add(
+                        new SupplierTm(
+                                dto.getId(),
+                                dto.getName(),
+                                dto.getPhoneNo(),
+                                dto.getProduct()
+                        )
+                );
+            }
+            tblSupplier.setItems(obList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setCellValueFactory() {
+        col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        col_phoneNo.setCellValueFactory(new PropertyValueFactory<>("phoneNo"));
+        col_product.setCellValueFactory(new PropertyValueFactory<>("product"));
+    }
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
