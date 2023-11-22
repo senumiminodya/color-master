@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import lk.ijse.colorMaster.db.DbConnection;
@@ -22,6 +23,8 @@ import lk.ijse.colorMaster.dto.tm.CustomerTm;
 import lk.ijse.colorMaster.dto.tm.SupplierTm;
 import lk.ijse.colorMaster.model.BaseStockModel;
 import lk.ijse.colorMaster.model.SupplierModel;
+import lk.ijse.colorMaster.util.Regex;
+import lk.ijse.colorMaster.util.TextFields;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -272,6 +275,30 @@ public class BaseStockFormController {
     @FXML
     void cmbSupplierOnAction(ActionEvent event) {
         //String supName = cmbSupplierName.getValue();
+
+    }
+
+    @FXML
+    void txtBaseIdOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.ID, txtBaseId);
+    }
+
+    @FXML
+    void txtBasePriceOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.DOUBLE, txtBasePrice);
+    }
+
+    @FXML
+    void txtBaseQtyOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.INTEGER, txtBaseqty);
+    }
+    @FXML
+    void txtBaseSizeOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.INTEGER_SPACE_CHARACTER, txtBaseSize);
+    }
+
+    @FXML
+    void txtBaseTypeOnKeyReleased(KeyEvent event) {
 
     }
 

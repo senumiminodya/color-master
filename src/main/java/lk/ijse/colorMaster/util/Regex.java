@@ -45,6 +45,9 @@ public class Regex {
             case TEXT_SPACE_NUMBER:
                 field="^[a-z A-Z\\d]{1,}$";
                 break;
+            case INTEGER_SPACE_CHARACTER:
+                field="^[0-9]{1,}[ ][L]$";
+                break;
         }
 
         Pattern pattern=Pattern.compile(field);

@@ -6,13 +6,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import lk.ijse.colorMaster.model.SignInModel;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
+//import static org.graalvm.compiler.options.OptionType.User;
 
 public class SigninFormController {
     @FXML
@@ -31,8 +36,26 @@ public class SigninFormController {
     private PasswordField txtPw;
 
     @FXML
-    void btnSignInOnAction(ActionEvent event) {
+    void btnSignInOnAction(ActionEvent event) throws SQLException {
+        String userName = txtName.getText();
+        String password = txtPw.getText();
+        String email = txtEmail.getText();
 
+        if (userName.isEmpty() || password.isEmpty() || email.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Fill All Fields").show();
+            txtName.requestFocus();
+            return;
+        } else {
+            // Save user in the database
+            if (SignInModel.saveUser(userName, password, email)) {
+                new Alert(Alert.AlertType.INFORMATION, "User saved successfully!").show();
+                txtName.clear();
+                txtPw.clear();
+                txtEmail.clear();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Error saving user to the database").show();
+            }
+        }
     }
 
     @FXML

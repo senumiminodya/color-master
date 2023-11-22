@@ -55,9 +55,9 @@
                   <TableColumn fx:id="col_price" prefWidth="156.0" text="Price" />
                     </columns>
                 </TableView>
-                <TextField fx:id="txtBaseId" layoutX="115.0" layoutY="186.0" onAction="#txtBaseSearchOnAction" prefHeight="37.0" prefWidth="269.0" />
-                <TextField fx:id="txtBaseqty" layoutX="397.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
-                <TextField fx:id="txtBaseSize" layoutX="115.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtBaseId" layoutX="115.0" layoutY="186.0" onAction="#txtBaseSearchOnAction" onKeyReleased="#txtBaseIdOnKeyReleased" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtBaseqty" layoutX="397.0" layoutY="302.0" onKeyReleased="#txtBaseQtyOnKeyReleased" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtBaseSize" layoutX="115.0" layoutY="302.0" onKeyReleased="#txtBaseSizeOnKeyReleased" prefHeight="37.0" prefWidth="269.0" />
                 <JFXButton fx:id="saveBtn" buttonType="RAISED" layoutX="158.0" layoutY="376.0" onAction="#btnSaveOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-color: CBFFA9; -fx-background-radius: 10; -fx-cursor: hand;" text="Save">
                     <font>
                         <Font name="System Bold" size="14.0" />
@@ -93,14 +93,14 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="txtBaseType" layoutX="397.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
+            <TextField fx:id="txtBaseType" layoutX="397.0" layoutY="186.0" onKeyReleased="#txtBaseTypeOnKeyReleased" prefHeight="37.0" prefWidth="269.0" />
             <ComboBox fx:id="cmbSupplierName" layoutX="679.0" layoutY="186.0" onAction="#cmbSupplierOnAction" prefHeight="37.0" prefWidth="269.0" />
             <Label layoutX="679.0" layoutY="258.0" prefHeight="37.0" prefWidth="236.0" text="Price:">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="txtBasePrice" layoutX="679.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
+            <TextField fx:id="txtBasePrice" layoutX="679.0" layoutY="302.0" onKeyReleased="#txtBasePriceOnKeyReleased" prefHeight="37.0" prefWidth="269.0" />
             </children>
         </AnchorPane>
     </children>
