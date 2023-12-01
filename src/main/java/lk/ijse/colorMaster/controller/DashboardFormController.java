@@ -7,8 +7,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lk.ijse.colorMaster.db.DbConnection;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
 
 public class DashboardFormController {
     @FXML
@@ -137,6 +144,86 @@ public class DashboardFormController {
         stage.setScene(scene);
         stage.setTitle("Supplier Form");
         stage.show();
+    }
+
+    @FXML
+    void viewCustomerBtnOnAction(ActionEvent event) throws JRException, SQLException {
+        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/customer_details.jrxml");
+        JasperDesign load;
+        load = JRXmlLoader.load(resourceAsStream);
+        JasperReport jasperReport = JasperCompileManager.compileReport(load);
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(
+                jasperReport, //compiled report
+                null,
+                DbConnection.getInstance().getConnection() //database connection
+        );
+
+        JasperViewer.viewReport(jasperPrint, false);
+    }
+
+    @FXML
+    void viewDriversBtnOnAction(ActionEvent event) throws JRException, SQLException {
+        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/driver_details.jrxml");
+        JasperDesign load;
+        load = JRXmlLoader.load(resourceAsStream);
+        JasperReport jasperReport = JasperCompileManager.compileReport(load);
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(
+                jasperReport, //compiled report
+                null,
+                DbConnection.getInstance().getConnection() //database connection
+        );
+
+        JasperViewer.viewReport(jasperPrint, false);
+    }
+
+    @FXML
+    void viewOrdersBtnOnAction(ActionEvent event) throws JRException, SQLException {
+        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/order_details.jrxml");
+        JasperDesign load;
+        load = JRXmlLoader.load(resourceAsStream);
+        JasperReport jasperReport = JasperCompileManager.compileReport(load);
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(
+                jasperReport, //compiled report
+                null,
+                DbConnection.getInstance().getConnection() //database connection
+        );
+
+        JasperViewer.viewReport(jasperPrint, false);
+    }
+
+    @FXML
+    void viewPaintsBtnOnAction(ActionEvent event) throws JRException, SQLException {
+        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/paint_details.jrxml");
+        JasperDesign load;
+        load = JRXmlLoader.load(resourceAsStream);
+        JasperReport jasperReport = JasperCompileManager.compileReport(load);
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(
+                jasperReport, //compiled report
+                null,
+                DbConnection.getInstance().getConnection() //database connection
+        );
+
+        JasperViewer.viewReport(jasperPrint, false);
+    }
+
+    @FXML
+    void viewVehiclesBtnOnAction(ActionEvent event) throws JRException, SQLException {
+        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/vehicle_details.jrxml");
+        JasperDesign load;
+        load = JRXmlLoader.load(resourceAsStream);
+        JasperReport jasperReport = JasperCompileManager.compileReport(load);
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(
+                jasperReport, //compiled report
+                null,
+                DbConnection.getInstance().getConnection() //database connection
+        );
+
+        JasperViewer.viewReport(jasperPrint, false);
     }
 
 

@@ -1,6 +1,8 @@
 package lk.ijse.colorMaster.controller;
 
+import com.google.protobuf.Message;
 import com.jfoenix.controls.JFXButton;
+import com.mysql.cj.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +20,10 @@ import lk.ijse.colorMaster.util.Regex;
 import lk.ijse.colorMaster.util.TextFields;
 
 import java.io.IOException;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 import java.sql.SQLException;
+import java.util.Properties;
 
 //import static org.graalvm.compiler.options.OptionType.User;
 
