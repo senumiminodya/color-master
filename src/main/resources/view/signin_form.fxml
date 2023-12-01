@@ -37,7 +37,7 @@
          </font>
       </Label>
       <TextField fx:id="txtName" layoutX="45.0" layoutY="328.0" prefHeight="34.0" prefWidth="367.0" promptText="A.B.C.Perera" style="-fx-background-radius: 30;" />
-      <TextField fx:id="txtEmail" layoutX="45.0" layoutY="429.0" prefHeight="34.0" prefWidth="367.0" promptText="perera@gmail.com" style="-fx-background-radius: 30;" />
+      <TextField fx:id="txtEmail" layoutX="45.0" layoutY="429.0" onKeyReleased="#txtEmailOnKeyReleased" prefHeight="34.0" prefWidth="367.0" promptText="perera@gmail.com" style="-fx-background-radius: 30;" />
       <Label layoutX="51.0" layoutY="284.0" prefHeight="34.0" prefWidth="75.0" text="Name">
          <font>
             <Font size="18.0" />

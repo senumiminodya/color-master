@@ -17,13 +17,19 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.tm.CustomerTm;
 import lk.ijse.colorMaster.model.CustomerModel;
 import lk.ijse.colorMaster.util.Regex;
 import lk.ijse.colorMaster.util.TextFields;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -69,6 +75,9 @@ public class CustomerFormController {
 
     @FXML
     private JFXButton updateBtn;
+
+    @FXML
+    private JFXButton customerReportBtn;
 
     private CustomerModel model = new CustomerModel();
     private AnchorPane root;
@@ -241,5 +250,22 @@ public class CustomerFormController {
                 && Regex.setTextColor(TextFields.PHONE, txtPhoneNo)
                 && Regex.setTextColor(TextFields.ADDRESS,txtAddress);
     }
+
+    @FXML
+    void btnViewCustomerOnAction(ActionEvent event) throws JRException, SQLException {
+        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/viewcustomer.jrxml");
+        JasperDesign load;
+        load = JRXmlLoader.load(resourceAsStream);
+        JasperReport jasperReport = JasperCompileManager.compileReport(load);
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(
+                jasperReport, //compiled report
+                null,
+                DbConnection.getInstance().getConnection() //database connection
+        );
+
+        JasperViewer.viewReport(jasperPrint, false);
+    }
+
 
 }

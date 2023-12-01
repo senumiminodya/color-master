@@ -75,6 +75,10 @@ CREATE TABLE order_paint_details (
                                      FOREIGN KEY (paint_id) REFERENCES paint_stock(paint_id)
 );
 
+SELECT o.order_no, o.cus_id, o.pay_amount, o.date, c.name
+FROM orders o
+JOIN customer c ON o.cus_id = c.cus_id
+ORDER BY o.date DESC;
 
 
 

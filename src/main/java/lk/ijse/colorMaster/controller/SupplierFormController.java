@@ -13,10 +13,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import lk.ijse.colorMaster.dto.SupplierDto;
 import lk.ijse.colorMaster.dto.tm.SupplierTm;
 import lk.ijse.colorMaster.model.SupplierModel;
+import lk.ijse.colorMaster.util.Regex;
+import lk.ijse.colorMaster.util.TextFields;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -200,5 +203,14 @@ public class SupplierFormController {
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
         }
+    }
+    @FXML
+    void txtSupplierIdOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.INTEGER, txtSupplierId);
+    }
+
+    @FXML
+    void txtSupplierPhoneNoOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.PHONE, txtSupplierPhoneNo);
     }
 }

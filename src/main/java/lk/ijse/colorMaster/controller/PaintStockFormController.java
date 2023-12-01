@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import lk.ijse.colorMaster.dto.BaseStockDto;
@@ -20,6 +21,8 @@ import lk.ijse.colorMaster.dto.tm.CustomerTm;
 import lk.ijse.colorMaster.dto.tm.ItemTm;
 import lk.ijse.colorMaster.model.BaseStockModel;
 import lk.ijse.colorMaster.model.PaintStockModel;
+import lk.ijse.colorMaster.util.Regex;
+import lk.ijse.colorMaster.util.TextFields;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -322,6 +325,25 @@ public class PaintStockFormController {
     @FXML
     void cmbBaseIdOnAction(ActionEvent event) throws SQLException {
 
+    }
+    @FXML
+    void txtItemIdOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.ID, txtItemId);
+    }
+
+    @FXML
+    void txtItemNameOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.NAME, txtItemName);
+    }
+
+    @FXML
+    void txtItemPriceOnkeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.DOUBLE, txtItemPrice);
+    }
+
+    @FXML
+    void txtQtyOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.INTEGER, txtItemQty);
     }
 
 }

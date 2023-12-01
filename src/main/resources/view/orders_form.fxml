@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="794.0" prefWidth="1235.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.colorMaster.controller.OrdersFormController">
     <children>
-        <ImageView fitHeight="794.0" fitWidth="1245.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="794.0" fitWidth="1245.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../assets/Order.jpg" />
             </image>
@@ -92,7 +92,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="txtQty" alignment="CENTER" layoutX="922.0" layoutY="235.0" onAction="#txtQtyOnAction" prefHeight="37.0" prefWidth="89.0" />
+            <TextField fx:id="txtQty" alignment="CENTER" layoutX="922.0" layoutY="235.0" onAction="#txtQtyOnAction" onKeyReleased="#txtQtyOnKeyReleased" prefHeight="37.0" prefWidth="89.0" />
             <ImageView fitHeight="37.0" fitWidth="28.0" layoutX="869.0" layoutY="308.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icon/cart.png" />
@@ -153,6 +153,11 @@
                   <Font size="18.0" />
                </font>
             </Label>
+            <JFXButton fx:id="viewOrderBtn" buttonType="RAISED" layoutX="510.0" layoutY="676.0" onAction="#btnViewOrdersOnAction" prefHeight="37.0" prefWidth="172.0" style="-fx-background-radius: 10; -fx-background-color: FFD6A5; -fx-cursor: hand;" text="View Order Report">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
             </children>
         </AnchorPane>
     </children>

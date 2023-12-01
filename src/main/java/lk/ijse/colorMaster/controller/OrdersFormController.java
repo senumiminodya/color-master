@@ -11,8 +11,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.OrderDto;
 import lk.ijse.colorMaster.dto.OrderPaintDetailsDTO;
@@ -21,8 +23,15 @@ import lk.ijse.colorMaster.dto.tm.CartTm;
 import lk.ijse.colorMaster.model.CustomerModel;
 import lk.ijse.colorMaster.model.OrderModel;
 import lk.ijse.colorMaster.model.PaintStockModel;
+import lk.ijse.colorMaster.util.Regex;
+import lk.ijse.colorMaster.util.TextFields;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -93,6 +102,9 @@ public class OrdersFormController {
 
     @FXML
     private JFXButton updateBtn;
+
+    @FXML
+    private JFXButton viewOrderBtn;
 
     private CustomerModel customerModel = new CustomerModel();
     private PaintStockModel itemModel = new PaintStockModel();
@@ -358,4 +370,25 @@ public class OrdersFormController {
         col_total.setCellValueFactory(new PropertyValueFactory<>("total"));
         col_action.setCellValueFactory(new PropertyValueFactory<>("action"));
     }
+    @FXML
+    void btnViewOrdersOnAction(ActionEvent event) throws JRException, SQLException {
+        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/order_details.jrxml");
+        JasperDesign load;
+        load = JRXmlLoader.load(resourceAsStream);
+        JasperReport jasperReport = JasperCompileManager.compileReport(load);
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(
+                jasperReport, //compiled report
+                null,
+                DbConnection.getInstance().getConnection() //database connection
+        );
+
+        JasperViewer.viewReport(jasperPrint, false);
+    }
+
+    @FXML
+    void txtQtyOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.INTEGER, txtQty);
+    }
+
 }

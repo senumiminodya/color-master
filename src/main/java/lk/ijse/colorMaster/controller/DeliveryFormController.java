@@ -12,11 +12,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import lk.ijse.colorMaster.dto.DeliveryDto;
 import lk.ijse.colorMaster.dto.DriverDto;
 import lk.ijse.colorMaster.dto.tm.DeliveryTm;
 import lk.ijse.colorMaster.model.DeliveryModel;
+import lk.ijse.colorMaster.util.Regex;
+import lk.ijse.colorMaster.util.TextFields;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -188,4 +191,14 @@ public class DeliveryFormController {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
         }
     }
+    @FXML
+    void txtOwnerPhoneNoOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.PHONE, txtOwnerPhoneNo);
+    }
+
+    @FXML
+    void txtVehicleIdOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.ID, txtVehicleId);
+    }
+
 }

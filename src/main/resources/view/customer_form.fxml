@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="828.0" prefWidth="1245.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.colorMaster.controller.CustomerFormController">
    <children>
-      <ImageView fitHeight="858.0" fitWidth="1248.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="858.0" fitWidth="1248.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/customer.jpg" />
          </image>
@@ -86,6 +86,11 @@
                   </ImageView>
                </children>
             </AnchorPane>
+            <JFXButton fx:id="customerReportBtn" buttonType="RAISED" layoutX="831.0" layoutY="41.0" onAction="#btnViewCustomerOnAction" prefHeight="37.0" prefWidth="176.0" style="-fx-background-color: C683D7; -fx-background-radius: 50; -fx-cursor: hand;" text="View Customer Report" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
          </children>
       </AnchorPane>
    </children>

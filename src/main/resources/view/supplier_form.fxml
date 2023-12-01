@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="828.0" prefWidth="1245.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.colorMaster.controller.SupplierFormController">
     <children>
-        <ImageView fitHeight="1028.0" fitWidth="1262.0" layoutY="-174.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="1028.0" fitWidth="1262.0" layoutY="-174.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../assets/perchaseOrder.jpg" />
             </image>
@@ -52,10 +52,10 @@
                         <TableColumn fx:id="col_product" prefWidth="324.0" text="product" />
                     </columns>
                 </TableView>
-                <TextField fx:id="txtSupplierId" layoutX="115.0" layoutY="186.0" onAction="#txtSupplierSearchOnAction" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtSupplierId" layoutX="115.0" layoutY="186.0" onAction="#txtSupplierSearchOnAction" onKeyReleased="#txtSupplierIdOnKeyReleased" prefHeight="37.0" prefWidth="269.0" />
                 <TextField fx:id="txtSupplierProduct" layoutX="679.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
                 <TextField fx:id="txtSupplierName" layoutX="679.0" layoutY="186.0" prefHeight="37.0" prefWidth="269.0" />
-                <TextField fx:id="txtSupplierPhoneNo" layoutX="115.0" layoutY="302.0" prefHeight="37.0" prefWidth="269.0" />
+                <TextField fx:id="txtSupplierPhoneNo" layoutX="115.0" layoutY="302.0" onKeyReleased="#txtSupplierPhoneNoOnKeyReleased" prefHeight="37.0" prefWidth="269.0" />
                 <JFXButton fx:id="saveBtn" buttonType="RAISED" layoutX="158.0" layoutY="376.0" onAction="#btnSaveOnAction" prefHeight="37.0" prefWidth="149.0" style="-fx-background-color: CBFFA9; -fx-background-radius: 10; -fx-cursor: hand;" text="Save">
                     <font>
                         <Font name="System Bold" size="14.0" />

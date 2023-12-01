@@ -10,9 +10,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lk.ijse.colorMaster.model.SignInModel;
+import lk.ijse.colorMaster.util.Regex;
+import lk.ijse.colorMaster.util.TextFields;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -69,6 +72,11 @@ public class SigninFormController {
         stage.setScene(scene);
         stage.setTitle("Log In Form");
         stage.show();
+    }
+
+    @FXML
+    void txtEmailOnKeyReleased(KeyEvent event) {
+        Regex.setTextColor(TextFields.EMAIL, txtEmail);
     }
 
 }
