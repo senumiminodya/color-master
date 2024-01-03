@@ -17,6 +17,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import lk.ijse.colorMaster.dao.CustomerDAOImpl;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.tm.CustomerTm;
@@ -79,7 +80,8 @@ public class CustomerFormController {
     @FXML
     private JFXButton customerReportBtn;
 
-    private CustomerModel model = new CustomerModel();
+    //private CustomerModel model = new CustomerModel();
+    private CustomerDAOImpl customerDAO = new CustomerDAOImpl();
     private AnchorPane root;
 
     public void initialize() {
@@ -90,7 +92,8 @@ public class CustomerFormController {
     private void loadAllCustomer() {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
         try {
-            List<CustomerDto> allCustomerDto = model.getAllCustomer();
+            //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+            List<CustomerDto> allCustomerDto = customerDAO.getAllCustomer();
             for (CustomerDto dto : allCustomerDto) {
                 obList.add(
                         new CustomerTm(
@@ -122,7 +125,8 @@ public class CustomerFormController {
         String telNo = txtPhoneNo.getText();
 
         try {
-            CustomerDto dto = model.searchCustomer(id);
+            //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+            CustomerDto dto = customerDAO.searchCustomer(id);
 
             if (dto != null) {
                 txtId.setText(dto.getId());
@@ -166,9 +170,11 @@ public class CustomerFormController {
     void btnDeleteOnAction(ActionEvent event) {
         String id = txtId.getText();
         try {
-            boolean isDeleted = model.deleteCustomer(id);
+            //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+            boolean isDeleted = customerDAO.deleteCustomer(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Customer deleted successfully.").show();
+                setCellValueFactory();
             } else {
                 new Alert(Alert.AlertType.ERROR,"Customer not found.").show();
             }
@@ -193,10 +199,12 @@ public class CustomerFormController {
         CustomerDto dto = new CustomerDto(id, name, address, phoneNo);
 
         try {
-            boolean isSaved = model.saveCustomer(dto);
+            //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+            boolean isSaved = customerDAO.saveCustomer(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Customer saved successfully.").show();
                 clearCustomer();
+                setCellValueFactory();
             } else {
                 new Alert(Alert.AlertType.ERROR, "Customer not found.").show();
             }
@@ -215,10 +223,12 @@ public class CustomerFormController {
         CustomerDto dto = new CustomerDto(id, name, address, phoneNo);
 
         try {
-            boolean isUpdated = model.updateCustomer(dto);
+            //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+            boolean isUpdated = customerDAO.updateCustomer(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Customer updated successfully.").show();
                 clearCustomer();
+                setCellValueFactory();
             } else {
                 new Alert(Alert.AlertType.ERROR, "Customer not found.").show();
             }

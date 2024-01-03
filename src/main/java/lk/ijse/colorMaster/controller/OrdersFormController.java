@@ -14,6 +14,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import lk.ijse.colorMaster.dao.CustomerDAOImpl;
+import lk.ijse.colorMaster.dao.OrdersDAOImpl;
+import lk.ijse.colorMaster.dao.PaintStockDAOImpl;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.OrderDto;
@@ -106,8 +109,10 @@ public class OrdersFormController {
     @FXML
     private JFXButton viewOrderBtn;
 
-    private CustomerModel customerModel = new CustomerModel();
-    private PaintStockModel itemModel = new PaintStockModel();
+    //private CustomerModel customerModel = new CustomerModel();
+    private CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+    //private PaintStockModel itemModel = new PaintStockModel();
+    private PaintStockDAOImpl paintStockDAO = new PaintStockDAOImpl();
     private ObservableList<CartTm> obList = FXCollections.observableArrayList();
 
     public void initialize() {
@@ -147,7 +152,8 @@ public class OrdersFormController {
         ObservableList<CustomerDto> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> idList = customerModel.getAllCustomer();
+            CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+            List<CustomerDto> idList = customerDAO.getAllCustomer();
 
             for (CustomerDto dto : idList) {
                 obList.add(dto);
@@ -162,7 +168,7 @@ public class OrdersFormController {
         ObservableList<PaintStockDto> obList = FXCollections.observableArrayList();
 
         try {
-            List<PaintStockDto> idList = itemModel.getAllPaints();
+            List<PaintStockDto> idList = paintStockDAO.getAllPaints();
 
             for (PaintStockDto dto : idList) {
                 obList.add(dto);
@@ -174,10 +180,11 @@ public class OrdersFormController {
         }
     }
 
-    private OrderModel orderModel = new OrderModel();
+    //private OrderModel orderModel = new OrderModel();
+    private OrdersDAOImpl ordersDAO = new OrdersDAOImpl();
     private void generateNextOrderId() {
         try {
-            String orderId = orderModel.generateNextOrderId();
+            String orderId = ordersDAO.generateNextOrderId();
             lblOrderId.setText(orderId);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -236,7 +243,7 @@ public class OrdersFormController {
         orderDto.setTotal(calculateTotal());
 
         try {
-            boolean isOrderPlaced = OrderModel.saveOrderDetails(orderDto);
+            boolean isOrderPlaced = ordersDAO.saveOrderDetails(orderDto);
             if (isOrderPlaced) {
                 new Alert(Alert.AlertType.INFORMATION, "Order Placed Successfully").show();
                 clearFields();

@@ -14,6 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lk.ijse.colorMaster.dao.DriverDAOImpl;
+import lk.ijse.colorMaster.dao.VehicleDAOImpl;
 import lk.ijse.colorMaster.dto.DeliveryDto;
 import lk.ijse.colorMaster.dto.DriverDto;
 import lk.ijse.colorMaster.dto.tm.DeliveryTm;
@@ -62,7 +64,8 @@ public class DeliveryFormController {
     @FXML
     private JFXButton updateBtn;
 
-    private DeliveryModel model = new DeliveryModel();
+    //private DeliveryModel model = new DeliveryModel();
+    private VehicleDAOImpl vehicleDAO = new VehicleDAOImpl();
 
     public void initialize() {
         loadAllVehicles();
@@ -72,7 +75,7 @@ public class DeliveryFormController {
     private void loadAllVehicles() {
         ObservableList<DeliveryTm> obList = FXCollections.observableArrayList();
         try {
-            List<DeliveryDto> allVehicleDto = model.getAllVehicle();
+            List<DeliveryDto> allVehicleDto = vehicleDAO.getAllVehicle();
             for (DeliveryDto dto : allVehicleDto) {
                 obList.add(
                         new DeliveryTm(
@@ -123,7 +126,7 @@ public class DeliveryFormController {
     void btnDeleteOnAction(ActionEvent event) {
         String id = txtVehicleId.getText();
         try {
-            boolean isDeleted = model.deleteVehicle(id);
+            boolean isDeleted = vehicleDAO.deleteVehicle(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Vehicle deleted successfully.").show();
             } else {
@@ -143,7 +146,7 @@ public class DeliveryFormController {
         DeliveryDto dto = new DeliveryDto(id, name, phoneNo);
 
         try {
-            boolean isSaved = model.saveVehicle(dto);
+            boolean isSaved = vehicleDAO.saveVehicle(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Vehicle saved successfully.").show();
                 clearVehicles();
@@ -164,7 +167,7 @@ public class DeliveryFormController {
         DeliveryDto dto = new DeliveryDto(id, name, phoneNo);
 
         try {
-            boolean isUpdated = model.updateVehicle(dto);
+            boolean isUpdated = vehicleDAO.updateVehicle(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Vehicle updated successfully.").show();
                 clearVehicles();
@@ -183,7 +186,7 @@ public class DeliveryFormController {
         String phoneNo = txtOwnerPhoneNo.getText();
 
         try {
-            DeliveryDto dto = model.searchVehicle(id);
+            DeliveryDto dto = vehicleDAO.searchVehicle(id);
             txtVehicleId.setText(dto.getId());
             txtOwnerName.setText(dto.getOwnerName());
             txtOwnerPhoneNo.setText(dto.getOwnerPhoneNo());

@@ -13,6 +13,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import lk.ijse.colorMaster.dao.UserDAOImpl;
 import lk.ijse.colorMaster.model.LoginModel;
 
 import java.io.IOException;
@@ -43,7 +44,8 @@ public class LoginFormController {
         }
 
         // Check if the user exists in the database
-        if (LoginModel.validateUser(userName, password)) {
+        UserDAOImpl userDAO = new UserDAOImpl();
+        if (userDAO.validateUser(userName, password)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Login successful!");
 
             // Event handler for the default "OK" button

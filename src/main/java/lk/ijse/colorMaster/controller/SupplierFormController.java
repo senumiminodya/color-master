@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lk.ijse.colorMaster.dao.SupplierDAOImpl;
 import lk.ijse.colorMaster.dto.SupplierDto;
 import lk.ijse.colorMaster.dto.tm.SupplierTm;
 import lk.ijse.colorMaster.model.SupplierModel;
@@ -69,7 +70,8 @@ public class SupplierFormController {
     @FXML
     private JFXButton updateBtn;
 
-    private SupplierModel model = new SupplierModel();
+    //private SupplierModel model = new SupplierModel();
+    private SupplierDAOImpl supplierDAO = new SupplierDAOImpl();
 
     public void initialize() {
         setCellValueFactory();
@@ -79,7 +81,7 @@ public class SupplierFormController {
     private void loadAllSuppliers() {
         ObservableList<SupplierTm> obList = FXCollections.observableArrayList();
         try {
-            List<SupplierDto> allSupplierDto = model.getAllSupplier();
+            List<SupplierDto> allSupplierDto = supplierDAO.getAllSupplier();
             for (SupplierDto dto : allSupplierDto) {
                 obList.add(
                         new SupplierTm(
@@ -132,7 +134,7 @@ public class SupplierFormController {
     void btnDeleteOnAction(ActionEvent event) {
         String id = txtSupplierId.getText();
         try {
-            boolean isDeleted = model.deleteSupplier(id);
+            boolean isDeleted = supplierDAO.deleteSupplier(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Supplier deleted successfully.").show();
             } else {
@@ -153,7 +155,7 @@ public class SupplierFormController {
         SupplierDto dto = new SupplierDto(id, name, address, phoneNo);
 
         try {
-            boolean isSaved = model.saveSupplier(dto);
+            boolean isSaved = supplierDAO.saveSupplier(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Supplier saved successfully.").show();
                 clearSupplier();
@@ -175,7 +177,7 @@ public class SupplierFormController {
         SupplierDto dto = new SupplierDto(id, name, address, phoneNo);
 
         try {
-            boolean isUpdated = model.updateSupplier(dto);
+            boolean isUpdated = supplierDAO.updateSupplier(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Supplier updated successfully.").show();
                 clearSupplier();
@@ -195,7 +197,7 @@ public class SupplierFormController {
         String product = txtSupplierProduct.getText();
 
         try {
-            SupplierDto dto = model.searchSupplier(id);
+            SupplierDto dto = supplierDAO.searchSupplier(id);
             txtSupplierId.setText(dto.getId());
             txtSupplierName.setText(dto.getName());
             txtSupplierPhoneNo.setText(dto.getPhoneNo());

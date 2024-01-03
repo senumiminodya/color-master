@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import lk.ijse.colorMaster.dao.UserDAOImpl;
 import lk.ijse.colorMaster.model.SignInModel;
 import lk.ijse.colorMaster.util.Regex;
 import lk.ijse.colorMaster.util.TextFields;
@@ -55,7 +56,8 @@ public class SigninFormController {
             return;
         } else {
             // Save user in the database
-            if (SignInModel.saveUser(userName, password, email)) {
+            UserDAOImpl userDAO = new UserDAOImpl();
+            if (userDAO.saveUser(userName, password, email)) {
                 new Alert(Alert.AlertType.INFORMATION, "User saved successfully!").show();
                 txtName.clear();
                 txtPw.clear();

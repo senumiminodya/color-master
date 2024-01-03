@@ -12,6 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import lk.ijse.colorMaster.dao.BaseStockDAOImpl;
+import lk.ijse.colorMaster.dao.SupplierDAOImpl;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.BaseStockDto;
 import lk.ijse.colorMaster.dto.CustomerDto;
@@ -89,8 +91,10 @@ public class BaseStockFormController {
     @FXML
     private JFXButton updateBtn;
 
-    private BaseStockModel model = new BaseStockModel();
-    private SupplierModel supModel = new SupplierModel();
+    //private BaseStockModel model = new BaseStockModel();
+    private BaseStockDAOImpl baseStockDAO = new BaseStockDAOImpl();
+    //private SupplierModel supModel = new SupplierModel();
+    private SupplierDAOImpl supplierDAO = new SupplierDAOImpl();
 
     public void initialize() {
         cmbSupplierName.setConverter(new StringConverter<SupplierCm>() {
@@ -112,7 +116,7 @@ public class BaseStockFormController {
     private void loadAllBases() {
         ObservableList<BaseStockTm> obList = FXCollections.observableArrayList();
         try {
-            List<BaseStockDto> allBaseDto = model.getAllBases();
+            List<BaseStockDto> allBaseDto = baseStockDAO.getAllBases();
             for (BaseStockDto dto : allBaseDto) {
                 obList.add(
                         new BaseStockTm(
@@ -172,7 +176,7 @@ public class BaseStockFormController {
     void btnDeleteOnAction(ActionEvent event) throws SQLException {
         String id = txtBaseId.getText();
         try {
-            boolean isDeleted = model.deleteBase(id);
+            boolean isDeleted = baseStockDAO.deleteBase(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Base deleted successfully.").show();
             } else {
@@ -195,7 +199,7 @@ public class BaseStockFormController {
         BaseStockDto dto = new BaseStockDto(id, type, name, size, qty, price);
 
         try {
-            boolean isSaved = model.saveBase(dto);
+            boolean isSaved = baseStockDAO.saveBase(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Base saved successfully.").show();
                 clearBases();
@@ -219,7 +223,7 @@ public class BaseStockFormController {
         BaseStockDto dto = new BaseStockDto(id, type, name, size, qty, price);
 
         try {
-            boolean isUpdated = model.updateBase(dto);
+            boolean isUpdated = baseStockDAO.updateBase(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Base updated successfully.").show();
                 clearBases();
@@ -236,7 +240,7 @@ public class BaseStockFormController {
         String id = txtBaseId.getText();
 
         try {
-            BaseStockDto dto = model.searchBase(id);
+            BaseStockDto dto = baseStockDAO.searchBase(id);
 
             if (dto != null) {
                 txtBaseId.setText(dto.getId());
@@ -255,7 +259,7 @@ public class BaseStockFormController {
 
     public void setComboBox() {
         try {
-            List<SupplierDto> allSup = supModel.getAllSupplier();
+            List<SupplierDto> allSup = supplierDAO.getAllSupplier();
             System.out.println(allSup.size());
             ArrayList<SupplierCm> objects = new ArrayList<>();
             for (SupplierDto sup : allSup) {
