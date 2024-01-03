@@ -14,12 +14,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.DriverDAOImpl;
-import lk.ijse.colorMaster.dao.VehicleDAOImpl;
+import lk.ijse.colorMaster.dao.custom.VehicleDAOImpl;
 import lk.ijse.colorMaster.dto.DeliveryDto;
-import lk.ijse.colorMaster.dto.DriverDto;
 import lk.ijse.colorMaster.dto.tm.DeliveryTm;
-import lk.ijse.colorMaster.model.DeliveryModel;
+//import lk.ijse.colorMaster.model.DeliveryModel;
 import lk.ijse.colorMaster.util.Regex;
 import lk.ijse.colorMaster.util.TextFields;
 

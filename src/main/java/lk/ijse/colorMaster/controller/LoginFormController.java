@@ -1,7 +1,6 @@
 package lk.ijse.colorMaster.controller;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,8 +12,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.UserDAOImpl;
-import lk.ijse.colorMaster.model.LoginModel;
+import lk.ijse.colorMaster.dao.custom.UserDAOImpl;
+//import lk.ijse.colorMaster.model.LoginModel;
 
 import java.io.IOException;
 import java.sql.SQLException;

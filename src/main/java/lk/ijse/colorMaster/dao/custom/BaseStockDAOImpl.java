@@ -1,5 +1,6 @@
-package lk.ijse.colorMaster.dao;
+package lk.ijse.colorMaster.dao.custom;
 
+import lk.ijse.colorMaster.dao.BaseStockDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.BaseStockDto;
 
@@ -10,7 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseStockDAOImpl {
+public class BaseStockDAOImpl implements BaseStockDAO {
+    @Override
     public boolean deleteBase(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -21,6 +23,7 @@ public class BaseStockDAOImpl {
         return isDeleted;
     }
 
+    @Override
     public boolean saveBase(BaseStockDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -41,6 +44,7 @@ public class BaseStockDAOImpl {
         return isSaved;
     }
 
+    @Override
     public boolean updateBase(BaseStockDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -61,6 +65,7 @@ public class BaseStockDAOImpl {
         return isUpdated;
     }
 
+    @Override
     public BaseStockDto searchBase(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -84,6 +89,7 @@ public class BaseStockDAOImpl {
         return dto;
     }
 
+    @Override
     public List<BaseStockDto> getAllBases() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 

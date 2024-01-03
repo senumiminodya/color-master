@@ -1,5 +1,6 @@
-package lk.ijse.colorMaster.dao;
+package lk.ijse.colorMaster.dao.custom;
 
+import lk.ijse.colorMaster.dao.OrdersDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.OrderDto;
 
@@ -8,7 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class OrdersDAOImpl {
+public class OrdersDAOImpl implements OrdersDAO {
+    @Override
     public String generateNextOrderId() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -22,7 +24,8 @@ public class OrdersDAOImpl {
         return splitOrderId(null);
     }
 
-    private String splitOrderId(String currentOrderId) {
+    @Override
+    public String splitOrderId(String currentOrderId) {
         if(currentOrderId != null) {
             String[] split = currentOrderId.split("O0");
 
@@ -34,7 +37,8 @@ public class OrdersDAOImpl {
         }
     }
 
-    private static boolean saveOrder(OrderDto dto) throws SQLException {
+    @Override
+    public boolean saveOrder(OrderDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO orders VALUES(?, ?, ?,?)";
@@ -47,7 +51,8 @@ public class OrdersDAOImpl {
         return pstm.executeUpdate() > 0;
     }
 
-    public static boolean saveOrderDetails(OrderDto dto) throws SQLException {
+    @Override
+    public boolean saveOrderDetails(OrderDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         connection.setAutoCommit(false);
         try {

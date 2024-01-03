@@ -1,5 +1,6 @@
-package lk.ijse.colorMaster.dao;
+package lk.ijse.colorMaster.dao.custom;
 
+import lk.ijse.colorMaster.dao.PaintStockDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.OrderPaintDetailsDTO;
 import lk.ijse.colorMaster.dto.PaintStockDto;
@@ -11,7 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaintStockDAOImpl {
+public class PaintStockDAOImpl implements PaintStockDAO {
+    @Override
     public boolean deletePaint(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -22,6 +24,7 @@ public class PaintStockDAOImpl {
         return isDeleted;
     }
 
+    @Override
     public boolean savePaint(PaintStockDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -42,6 +45,7 @@ public class PaintStockDAOImpl {
         return isSaved;
     }
 
+    @Override
     public boolean updatePaint(PaintStockDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -61,6 +65,7 @@ public class PaintStockDAOImpl {
         return isUpdated;
     }
 
+    @Override
     public PaintStockDto searchPaint(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -85,6 +90,7 @@ public class PaintStockDAOImpl {
         return dto;
     }
 
+    @Override
     public List<PaintStockDto> getAllPaints() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -111,6 +117,7 @@ public class PaintStockDAOImpl {
         return dtoList;
     }
 
+    @Override
     public boolean updateQty(List<OrderPaintDetailsDTO> list) throws SQLException {
         for (OrderPaintDetailsDTO orderPaintDetailsDTO : list) {
             if (!updateQty(orderPaintDetailsDTO)) {
@@ -120,7 +127,8 @@ public class PaintStockDAOImpl {
         return true;
     }
 
-    private static boolean updateQty(OrderPaintDetailsDTO ob) throws SQLException {
+    @Override
+    public boolean updateQty(OrderPaintDetailsDTO ob) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         PreparedStatement pstm = null;
 

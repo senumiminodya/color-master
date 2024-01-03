@@ -1,5 +1,6 @@
-package lk.ijse.colorMaster.dao;
+package lk.ijse.colorMaster.dao.custom;
 
+import lk.ijse.colorMaster.dao.VehicleDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.DeliveryDto;
 
@@ -10,7 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VehicleDAOImpl {
+public class VehicleDAOImpl implements VehicleDAO {
+    @Override
     public DeliveryDto searchVehicle(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -29,6 +31,7 @@ public class VehicleDAOImpl {
         }
         return dto;
     }
+    @Override
     public boolean saveVehicle(DeliveryDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -43,6 +46,7 @@ public class VehicleDAOImpl {
 
         return isSaved;
     }
+    @Override
     public boolean deleteVehicle(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -53,6 +57,7 @@ public class VehicleDAOImpl {
         return isDeleted;
     }
 
+    @Override
     public boolean updateVehicle(DeliveryDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -67,6 +72,7 @@ public class VehicleDAOImpl {
         return isUpdated;
     }
 
+    @Override
     public List<DeliveryDto> getAllVehicle() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 

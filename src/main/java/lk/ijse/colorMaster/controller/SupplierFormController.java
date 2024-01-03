@@ -15,10 +15,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.SupplierDAOImpl;
+import lk.ijse.colorMaster.dao.custom.SupplierDAOImpl;
 import lk.ijse.colorMaster.dto.SupplierDto;
 import lk.ijse.colorMaster.dto.tm.SupplierTm;
-import lk.ijse.colorMaster.model.SupplierModel;
+//import lk.ijse.colorMaster.model.SupplierModel;
 import lk.ijse.colorMaster.util.Regex;
 import lk.ijse.colorMaster.util.TextFields;
 

@@ -1,5 +1,6 @@
-package lk.ijse.colorMaster.dao;
+package lk.ijse.colorMaster.dao.custom;
 
+import lk.ijse.colorMaster.dao.SupplierDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.SupplierDto;
 
@@ -9,7 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class SupplierDAOImpl {
+public class SupplierDAOImpl implements SupplierDAO {
+    @Override
     public boolean deleteSupplier(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -20,6 +22,7 @@ public class SupplierDAOImpl {
         return isDeleted;
     }
 
+    @Override
     public boolean saveSupplier(SupplierDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -35,6 +38,7 @@ public class SupplierDAOImpl {
         return isSaved;
     }
 
+    @Override
     public boolean updateSupplier(SupplierDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -50,6 +54,7 @@ public class SupplierDAOImpl {
         return isUpdated;
     }
 
+    @Override
     public SupplierDto searchSupplier(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -70,6 +75,7 @@ public class SupplierDAOImpl {
         }
         return dto;
     }
+    @Override
     public ArrayList<SupplierDto> getAllSupplier() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
