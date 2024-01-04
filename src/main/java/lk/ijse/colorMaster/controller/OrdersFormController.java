@@ -14,9 +14,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import lk.ijse.colorMaster.dao.custom.CustomerDAOImpl;
-import lk.ijse.colorMaster.dao.custom.OrdersDAOImpl;
-import lk.ijse.colorMaster.dao.custom.PaintStockDAOImpl;
+import lk.ijse.colorMaster.dao.custom.impl.CustomerDAOImpl;
+import lk.ijse.colorMaster.dao.custom.impl.OrdersDAOImpl;
+import lk.ijse.colorMaster.dao.custom.impl.PaintStockDAOImpl;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.OrderDto;
@@ -153,7 +153,7 @@ public class OrdersFormController {
 
         try {
             CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            List<CustomerDto> idList = customerDAO.getAllCustomer();
+            List<CustomerDto> idList = customerDAO.getAll();
 
             for (CustomerDto dto : idList) {
                 obList.add(dto);
@@ -168,7 +168,7 @@ public class OrdersFormController {
         ObservableList<PaintStockDto> obList = FXCollections.observableArrayList();
 
         try {
-            List<PaintStockDto> idList = paintStockDAO.getAllPaints();
+            List<PaintStockDto> idList = paintStockDAO.getAll();
 
             for (PaintStockDto dto : idList) {
                 obList.add(dto);

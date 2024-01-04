@@ -1,6 +1,6 @@
-package lk.ijse.colorMaster.dao.custom;
+package lk.ijse.colorMaster.dao.custom.impl;
 
-import lk.ijse.colorMaster.dao.BaseStockDAO;
+import lk.ijse.colorMaster.dao.custom.BaseStockDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.BaseStockDto;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class BaseStockDAOImpl implements BaseStockDAO {
     @Override
-    public boolean deleteBase(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM base_stock WHERE base_id = ?";
@@ -24,7 +24,7 @@ public class BaseStockDAOImpl implements BaseStockDAO {
     }
 
     @Override
-    public boolean saveBase(BaseStockDto dto) throws SQLException {
+    public boolean save(BaseStockDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO base_stock VALUES(?, ?, ?, ?, ?, ?)";
@@ -45,7 +45,7 @@ public class BaseStockDAOImpl implements BaseStockDAO {
     }
 
     @Override
-    public boolean updateBase(BaseStockDto dto) throws SQLException {
+    public boolean update(BaseStockDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE base_stock SET base_type = ?, sup_id = ?, size = ?, qty = ?, price = ? WHERE base_id = ?";
@@ -66,7 +66,7 @@ public class BaseStockDAOImpl implements BaseStockDAO {
     }
 
     @Override
-    public BaseStockDto searchBase(String id) throws SQLException {
+    public BaseStockDto search(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM base_stock WHERE base_id = ?";
@@ -90,7 +90,7 @@ public class BaseStockDAOImpl implements BaseStockDAO {
     }
 
     @Override
-    public List<BaseStockDto> getAllBases() throws SQLException {
+    public List<BaseStockDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM base_stock";

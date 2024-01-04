@@ -12,7 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.custom.UserDAOImpl;
+import lk.ijse.colorMaster.dao.custom.impl.UserDAOImpl;
 //import lk.ijse.colorMaster.model.LoginModel;
 
 import java.io.IOException;

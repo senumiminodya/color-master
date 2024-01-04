@@ -1,6 +1,6 @@
-package lk.ijse.colorMaster.dao.custom;
+package lk.ijse.colorMaster.dao.custom.impl;
 
-import lk.ijse.colorMaster.dao.OrdersDAO;
+import lk.ijse.colorMaster.dao.custom.OrdersDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.OrderDto;
 
@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class OrdersDAOImpl implements OrdersDAO {
     @Override
@@ -38,7 +39,12 @@ public class OrdersDAOImpl implements OrdersDAO {
     }
 
     @Override
-    public boolean saveOrder(OrderDto dto) throws SQLException {
+    public boolean delete(String id) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean save(OrderDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO orders VALUES(?, ?, ?,?)";
@@ -52,11 +58,26 @@ public class OrdersDAOImpl implements OrdersDAO {
     }
 
     @Override
+    public boolean update(OrderDto dto) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public OrderDto search(String id) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public List<OrderDto> getAll() throws SQLException {
+        return null;
+    }
+
+    @Override
     public boolean saveOrderDetails(OrderDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         connection.setAutoCommit(false);
         try {
-            boolean isOrderSaved = saveOrder(dto);
+            boolean isOrderSaved = save(dto);
             if (isOrderSaved){
                 OrderPaintDetailsDAOImpl orderPaintDetailsDAO = new OrderPaintDetailsDAOImpl();
                 boolean isAllSaved = orderPaintDetailsDAO.saveOrderDetails(dto.getCartTmList());

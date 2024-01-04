@@ -12,8 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import lk.ijse.colorMaster.dao.custom.BaseStockDAOImpl;
-import lk.ijse.colorMaster.dao.custom.PaintStockDAOImpl;
+import lk.ijse.colorMaster.dao.custom.impl.BaseStockDAOImpl;
+import lk.ijse.colorMaster.dao.custom.impl.PaintStockDAOImpl;
 import lk.ijse.colorMaster.dto.BaseStockDto;
 import lk.ijse.colorMaster.dto.PaintStockDto;
 import lk.ijse.colorMaster.dto.cm.BaseCm;
@@ -117,7 +117,7 @@ public class PaintStockFormController {
     private void loadAllItems() {
         ObservableList<ItemTm> obList = FXCollections.observableArrayList();
         try {
-            List<PaintStockDto> allPaintDto = paintStockDAO.getAllPaints();
+            List<PaintStockDto> allPaintDto = paintStockDAO.getAll();
             for (PaintStockDto dto : allPaintDto) {
                 obList.add(
                         new ItemTm(
@@ -151,7 +151,7 @@ public class PaintStockFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<BaseStockDto> idList = baseStockDAO.getAllBases();
+            List<BaseStockDto> idList = baseStockDAO.getAll();
 
             /*for (BaseStockDto dto : idList) {
                 obList.add(dto.getId());
@@ -195,7 +195,7 @@ public class PaintStockFormController {
     void btnDeleteOnAction(ActionEvent event) {
         String id = txtItemId.getText();
         try {
-            boolean isDeleted = paintStockDAO.deletePaint(id);
+            boolean isDeleted = paintStockDAO.delete(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Paint deleted successfully.").show();
             } else {
@@ -219,7 +219,7 @@ public class PaintStockFormController {
         PaintStockDto dto = new PaintStockDto(id, name, type, baseId, size, qty, price);
 
         try {
-            boolean isSaved = paintStockDAO.savePaint(dto);
+            boolean isSaved = paintStockDAO.save(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Paint saved successfully.").show();
                 clearPaints();
@@ -244,7 +244,7 @@ public class PaintStockFormController {
         PaintStockDto dto = new PaintStockDto(id, name, type, baseId, size, qty, price);
 
         try {
-            boolean isUpdated = paintStockDAO.updatePaint(dto);
+            boolean isUpdated = paintStockDAO.update(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Paint updated successfully.").show();
                 clearPaints();
@@ -262,7 +262,7 @@ public class PaintStockFormController {
         String id = txtItemId.getText();
 
         try {
-            PaintStockDto dto = paintStockDAO.searchPaint(id);
+            PaintStockDto dto = paintStockDAO.search(id);
 
             if (dto != null) {
                 txtItemId.setText(dto.getId());
@@ -288,7 +288,7 @@ public class PaintStockFormController {
 
     public void setComboBox() {
         try {
-            List<BaseStockDto> allBases = baseStockDAO.getAllBases();
+            List<BaseStockDto> allBases = baseStockDAO.getAll();
             ArrayList<BaseCm> objects = new ArrayList<>();
             for (BaseStockDto ob : allBases) {
                 BaseCm baseCm = new BaseCm();

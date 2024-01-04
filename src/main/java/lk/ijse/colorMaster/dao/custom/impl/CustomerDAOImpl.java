@@ -1,8 +1,8 @@
-package lk.ijse.colorMaster.dao.custom;
+package lk.ijse.colorMaster.dao.custom.impl;
 
-import lk.ijse.colorMaster.dao.DriverDAO;
+import lk.ijse.colorMaster.dao.custom.CustomerDAO;
 import lk.ijse.colorMaster.db.DbConnection;
-import lk.ijse.colorMaster.dto.DriverDto;
+import lk.ijse.colorMaster.dto.CustomerDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,31 +11,35 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriverDAOImpl implements DriverDAO {
-    public DriverDto searchDriver(String id) throws SQLException {
+public class CustomerDAOImpl implements CustomerDAO {
+    @Override
+    public CustomerDto search(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT * FROM driver WHERE driver_id = ?";
+        String sql = "SELECT * FROM customer WHERE cus_id = ?";
 
         PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,id);
+        pstm.setString(1, id);
         ResultSet resultSet = pstm.executeQuery();
-        DriverDto dto = null;
+
+        CustomerDto dto = null;
         if (resultSet.next()) {
-            String driverId = resultSet.getString(1);
-            String name = resultSet.getString(2);
-            String address = resultSet.getString(3);
-            String phoneNo = resultSet.getString(4);
-            dto = new DriverDto(driverId,name,address,phoneNo);
+            String cusId = resultSet.getString(1);
+            String cusName = resultSet.getString(2);
+            String cusAddress = resultSet.getString(3);
+            String cusTelNo = resultSet.getString(4);
+
+            dto = new CustomerDto(cusId, cusName, cusAddress, cusTelNo);
         }
         return dto;
     }
-    public boolean saveDriver(DriverDto dto) throws SQLException {
+    @Override
+    public boolean save(CustomerDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "INSERT INTO driver VALUES(?, ?, ?, ?)";
+        String sql = "INSERT INTO customer VALUES(?, ?, ?, ?)";
         PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, dto.getDriverId());
+        pstm.setString(1, dto.getId());
         pstm.setString(2, dto.getName());
         pstm.setString(3, dto.getAddress());
         pstm.setString(4, dto.getPhoneNo());
@@ -44,42 +48,46 @@ public class DriverDAOImpl implements DriverDAO {
 
         return isSaved;
     }
-    public boolean deleteDriver(String id) throws SQLException {
+    @Override
+    public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "DELETE FROM driver WHERE driver_id = ?";
+        String sql = "DELETE FROM customer WHERE cus_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
         pstm.setString(1,id);
         boolean isDeleted = pstm.executeUpdate()>0;
         return isDeleted;
     }
 
-    public boolean updateDriver(DriverDto dto) throws SQLException {
+    @Override
+    public boolean update(CustomerDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "UPDATE driver SET name = ?, address = ?, phone_no = ? WHERE driver_id = ?";
+        String sql = "UPDATE customer SET name = ?, address = ?, phone_no = ? WHERE cus_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
 
         pstm.setString(1, dto.getName());
         pstm.setString(2, dto.getAddress());
         pstm.setString(3, dto.getPhoneNo());
-        pstm.setString(4, dto.getDriverId());
+        pstm.setString(4, dto.getId());
 
         boolean isUpdated = pstm.executeUpdate()>0;
         return isUpdated;
     }
-    public List<DriverDto> getAllDriver() throws SQLException {
+
+    @Override
+    public List<CustomerDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT * FROM driver";
+        String sql = "SELECT * FROM customer";
         PreparedStatement pstm = connection.prepareStatement(sql);
         ResultSet resultSet = pstm.executeQuery();
 
-        ArrayList<DriverDto> dtoList = new ArrayList<>();
+        ArrayList<CustomerDto> dtoList = new ArrayList<>();
 
         while(resultSet.next()) {
             dtoList.add(
-                    new DriverDto(
+                    new CustomerDto(
                             resultSet.getString(1),
                             resultSet.getString(2),
                             resultSet.getString(3),

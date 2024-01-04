@@ -1,8 +1,8 @@
-package lk.ijse.colorMaster.dao.custom;
+package lk.ijse.colorMaster.dao.custom.impl;
 
-import lk.ijse.colorMaster.dao.CustomerDAO;
+import lk.ijse.colorMaster.dao.custom.VehicleDAO;
 import lk.ijse.colorMaster.db.DbConnection;
-import lk.ijse.colorMaster.dto.CustomerDto;
+import lk.ijse.colorMaster.dto.DeliveryDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,48 +11,46 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDAOImpl implements CustomerDAO {
+public class VehicleDAOImpl implements VehicleDAO {
     @Override
-    public CustomerDto searchCustomer(String id) throws SQLException {
+    public DeliveryDto search(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT * FROM customer WHERE cus_id = ?";
+        String sql = "SELECT * FROM vehicle WHERE vehicle_id = ?";
 
         PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, id);
+        pstm.setString(1,id);
         ResultSet resultSet = pstm.executeQuery();
-
-        CustomerDto dto = null;
+        DeliveryDto dto = null;
         if (resultSet.next()) {
-            String cusId = resultSet.getString(1);
-            String cusName = resultSet.getString(2);
-            String cusAddress = resultSet.getString(3);
-            String cusTelNo = resultSet.getString(4);
+            String vehicleId = resultSet.getString(1);
+            String ownerName = resultSet.getString(2);
+            String phoneNo = resultSet.getString(3);
 
-            dto = new CustomerDto(cusId, cusName, cusAddress, cusTelNo);
+            dto = new DeliveryDto(vehicleId, ownerName, phoneNo);
         }
         return dto;
     }
     @Override
-    public boolean saveCustomer(CustomerDto dto) throws SQLException {
+    public boolean save(DeliveryDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "INSERT INTO customer VALUES(?, ?, ?, ?)";
+        String sql = "INSERT INTO vehicle VALUES(?, ?, ?)";
         PreparedStatement pstm = connection.prepareStatement(sql);
         pstm.setString(1, dto.getId());
-        pstm.setString(2, dto.getName());
-        pstm.setString(3, dto.getAddress());
-        pstm.setString(4, dto.getPhoneNo());
+        pstm.setString(2, dto.getOwnerName());
+        pstm.setString(3, dto.getOwnerPhoneNo());
+
 
         boolean isSaved = pstm.executeUpdate() > 0;
 
         return isSaved;
     }
     @Override
-    public boolean deleteCustomer(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "DELETE FROM customer WHERE cus_id = ?";
+        String sql = "DELETE FROM vehicle WHERE vehicle_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
         pstm.setString(1,id);
         boolean isDeleted = pstm.executeUpdate()>0;
@@ -60,38 +58,36 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public boolean updateCustomer(CustomerDto dto) throws SQLException {
+    public boolean update(DeliveryDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "UPDATE customer SET name = ?, address = ?, phone_no = ? WHERE cus_id = ?";
+        String sql = "UPDATE vehicle SET owner_name = ?, owner_phone_no = ? WHERE vehicle_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
 
-        pstm.setString(1, dto.getName());
-        pstm.setString(2, dto.getAddress());
-        pstm.setString(3, dto.getPhoneNo());
-        pstm.setString(4, dto.getId());
+        pstm.setString(1, dto.getOwnerName());
+        pstm.setString(2, dto.getOwnerPhoneNo());
+        pstm.setString(3, dto.getId());
 
         boolean isUpdated = pstm.executeUpdate()>0;
         return isUpdated;
     }
 
     @Override
-    public List<CustomerDto> getAllCustomer() throws SQLException {
+    public List<DeliveryDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT * FROM customer";
+        String sql = "SELECT * FROM vehicle";
         PreparedStatement pstm = connection.prepareStatement(sql);
         ResultSet resultSet = pstm.executeQuery();
 
-        ArrayList<CustomerDto> dtoList = new ArrayList<>();
+        ArrayList<DeliveryDto> dtoList = new ArrayList<>();
 
         while(resultSet.next()) {
             dtoList.add(
-                    new CustomerDto(
+                    new DeliveryDto(
                             resultSet.getString(1),
                             resultSet.getString(2),
-                            resultSet.getString(3),
-                            resultSet.getString(4)
+                            resultSet.getString(3)
                     )
             );
         }

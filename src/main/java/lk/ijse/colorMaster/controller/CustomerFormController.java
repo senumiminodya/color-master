@@ -16,7 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.custom.CustomerDAOImpl;
+import lk.ijse.colorMaster.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.tm.CustomerTm;
@@ -92,7 +92,7 @@ public class CustomerFormController {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
         try {
             //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            List<CustomerDto> allCustomerDto = customerDAO.getAllCustomer();
+            List<CustomerDto> allCustomerDto = customerDAO.getAll();
             for (CustomerDto dto : allCustomerDto) {
                 obList.add(
                         new CustomerTm(
@@ -125,7 +125,7 @@ public class CustomerFormController {
 
         try {
             //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            CustomerDto dto = customerDAO.searchCustomer(id);
+            CustomerDto dto = customerDAO.search(id);
 
             if (dto != null) {
                 txtId.setText(dto.getId());
@@ -170,7 +170,7 @@ public class CustomerFormController {
         String id = txtId.getText();
         try {
             //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            boolean isDeleted = customerDAO.deleteCustomer(id);
+            boolean isDeleted = customerDAO.delete(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Customer deleted successfully.").show();
                 setCellValueFactory();
@@ -199,7 +199,7 @@ public class CustomerFormController {
 
         try {
             //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            boolean isSaved = customerDAO.saveCustomer(dto);
+            boolean isSaved = customerDAO.save(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Customer saved successfully.").show();
                 clearCustomer();
@@ -223,7 +223,7 @@ public class CustomerFormController {
 
         try {
             //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            boolean isUpdated = customerDAO.updateCustomer(dto);
+            boolean isUpdated = customerDAO.update(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Customer updated successfully.").show();
                 clearCustomer();

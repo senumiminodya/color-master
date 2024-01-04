@@ -1,6 +1,6 @@
-package lk.ijse.colorMaster.dao.custom;
+package lk.ijse.colorMaster.dao.custom.impl;
 
-import lk.ijse.colorMaster.dao.SupplierDAO;
+import lk.ijse.colorMaster.dao.custom.SupplierDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.SupplierDto;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class SupplierDAOImpl implements SupplierDAO {
     @Override
-    public boolean deleteSupplier(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM supplier WHERE sup_id = ?";
@@ -23,7 +23,7 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     @Override
-    public boolean saveSupplier(SupplierDto dto) throws SQLException {
+    public boolean save(SupplierDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO supplier VALUES(?, ?, ?, ?)";
@@ -39,7 +39,7 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     @Override
-    public boolean updateSupplier(SupplierDto dto) throws SQLException {
+    public boolean update(SupplierDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE supplier SET name = ?, phone_no = ?, product = ? WHERE sup_id = ?";
@@ -55,7 +55,7 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     @Override
-    public SupplierDto searchSupplier(String id) throws SQLException {
+    public SupplierDto search(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM supplier WHERE sup_id = ?";
@@ -76,7 +76,7 @@ public class SupplierDAOImpl implements SupplierDAO {
         return dto;
     }
     @Override
-    public ArrayList<SupplierDto> getAllSupplier() throws SQLException {
+    public ArrayList<SupplierDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM supplier";

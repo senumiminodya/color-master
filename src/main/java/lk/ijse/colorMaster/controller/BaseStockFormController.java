@@ -12,8 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import lk.ijse.colorMaster.dao.custom.BaseStockDAOImpl;
-import lk.ijse.colorMaster.dao.custom.SupplierDAOImpl;
+import lk.ijse.colorMaster.dao.custom.impl.BaseStockDAOImpl;
+import lk.ijse.colorMaster.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.colorMaster.dto.BaseStockDto;
 import lk.ijse.colorMaster.dto.SupplierDto;
 import lk.ijse.colorMaster.dto.cm.SupplierCm;
@@ -108,7 +108,7 @@ public class BaseStockFormController {
     private void loadAllBases() {
         ObservableList<BaseStockTm> obList = FXCollections.observableArrayList();
         try {
-            List<BaseStockDto> allBaseDto = baseStockDAO.getAllBases();
+            List<BaseStockDto> allBaseDto = baseStockDAO.getAll();
             for (BaseStockDto dto : allBaseDto) {
                 obList.add(
                         new BaseStockTm(
@@ -168,7 +168,7 @@ public class BaseStockFormController {
     void btnDeleteOnAction(ActionEvent event) throws SQLException {
         String id = txtBaseId.getText();
         try {
-            boolean isDeleted = baseStockDAO.deleteBase(id);
+            boolean isDeleted = baseStockDAO.delete(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Base deleted successfully.").show();
             } else {
@@ -191,7 +191,7 @@ public class BaseStockFormController {
         BaseStockDto dto = new BaseStockDto(id, type, name, size, qty, price);
 
         try {
-            boolean isSaved = baseStockDAO.saveBase(dto);
+            boolean isSaved = baseStockDAO.save(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Base saved successfully.").show();
                 clearBases();
@@ -215,7 +215,7 @@ public class BaseStockFormController {
         BaseStockDto dto = new BaseStockDto(id, type, name, size, qty, price);
 
         try {
-            boolean isUpdated = baseStockDAO.updateBase(dto);
+            boolean isUpdated = baseStockDAO.update(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Base updated successfully.").show();
                 clearBases();
@@ -232,7 +232,7 @@ public class BaseStockFormController {
         String id = txtBaseId.getText();
 
         try {
-            BaseStockDto dto = baseStockDAO.searchBase(id);
+            BaseStockDto dto = baseStockDAO.search(id);
 
             if (dto != null) {
                 txtBaseId.setText(dto.getId());
@@ -251,7 +251,7 @@ public class BaseStockFormController {
 
     public void setComboBox() {
         try {
-            List<SupplierDto> allSup = supplierDAO.getAllSupplier();
+            List<SupplierDto> allSup = supplierDAO.getAll();
             System.out.println(allSup.size());
             ArrayList<SupplierCm> objects = new ArrayList<>();
             for (SupplierDto sup : allSup) {

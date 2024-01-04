@@ -1,6 +1,6 @@
-package lk.ijse.colorMaster.dao.custom;
+package lk.ijse.colorMaster.dao.custom.impl;
 
-import lk.ijse.colorMaster.dao.PaintStockDAO;
+import lk.ijse.colorMaster.dao.custom.PaintStockDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.OrderPaintDetailsDTO;
 import lk.ijse.colorMaster.dto.PaintStockDto;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class PaintStockDAOImpl implements PaintStockDAO {
     @Override
-    public boolean deletePaint(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM paint_stock WHERE paint_id = ?";
@@ -25,7 +25,7 @@ public class PaintStockDAOImpl implements PaintStockDAO {
     }
 
     @Override
-    public boolean savePaint(PaintStockDto dto) throws SQLException {
+    public boolean save(PaintStockDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO paint_stock VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -46,7 +46,7 @@ public class PaintStockDAOImpl implements PaintStockDAO {
     }
 
     @Override
-    public boolean updatePaint(PaintStockDto dto) throws SQLException {
+    public boolean update(PaintStockDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE paint_stock SET name = ?, type = ?, base_id = ?, size = ?, qty = ?, price = ? WHERE paint_id = ?";
@@ -66,7 +66,7 @@ public class PaintStockDAOImpl implements PaintStockDAO {
     }
 
     @Override
-    public PaintStockDto searchPaint(String id) throws SQLException {
+    public PaintStockDto search(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM paint_stock WHERE paint_id = ?";
@@ -91,7 +91,7 @@ public class PaintStockDAOImpl implements PaintStockDAO {
     }
 
     @Override
-    public List<PaintStockDto> getAllPaints() throws SQLException {
+    public List<PaintStockDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM paint_stock";

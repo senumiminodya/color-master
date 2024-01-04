@@ -1,5 +1,6 @@
-package lk.ijse.colorMaster.dao;
+package lk.ijse.colorMaster.dao.custom;
 
+import lk.ijse.colorMaster.dao.CrudDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.OrderPaintDetailsDTO;
 import lk.ijse.colorMaster.dto.PaintStockDto;
@@ -11,16 +12,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface PaintStockDAO {
-    boolean deletePaint(String id) throws SQLException;
+public interface PaintStockDAO extends CrudDAO<PaintStockDto> {
+    /*
+    boolean delete(String id) throws SQLException;
 
-    boolean savePaint(PaintStockDto dto) throws SQLException;
 
-    boolean updatePaint(PaintStockDto dto) throws SQLException;
+    boolean save(PaintStockDto dto) throws SQLException;
 
-    PaintStockDto searchPaint(String id) throws SQLException;
 
-    List<PaintStockDto> getAllPaints() throws SQLException;
+    boolean update(PaintStockDto dto) throws SQLException;
+
+
+    PaintStockDto search(String id) throws SQLException;
+
+
+    List<PaintStockDto> getAll() throws SQLException;*/
 
     boolean updateQty(List<OrderPaintDetailsDTO> list) throws SQLException;
 

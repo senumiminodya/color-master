@@ -13,8 +13,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.custom.UserDAOImpl;
+import lk.ijse.colorMaster.dao.custom.impl.UserDAOImpl;
 //import lk.ijse.colorMaster.model.SignInModel;
+import lk.ijse.colorMaster.dto.UserDto;
 import lk.ijse.colorMaster.util.Regex;
 import lk.ijse.colorMaster.util.TextFields;
 
@@ -52,7 +53,8 @@ public class SigninFormController {
         } else {
             // Save user in the database
             UserDAOImpl userDAO = new UserDAOImpl();
-            if (userDAO.saveUser(userName, password, email)) {
+            UserDto userDto = new UserDto(userName, password, email);
+            if (userDAO.save(userDto)) {
                 new Alert(Alert.AlertType.INFORMATION, "User saved successfully!").show();
                 txtName.clear();
                 txtPw.clear();

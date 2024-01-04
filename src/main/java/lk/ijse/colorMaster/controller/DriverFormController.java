@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.custom.DriverDAOImpl;
+import lk.ijse.colorMaster.dao.custom.impl.DriverDAOImpl;
 import lk.ijse.colorMaster.dto.DriverDto;
 import lk.ijse.colorMaster.dto.tm.DriverTm;
 //import lk.ijse.colorMaster.model.DriverModel;
@@ -79,7 +79,7 @@ public class DriverFormController {
     private void loadAllDrivers() {
         ObservableList<DriverTm> obList = FXCollections.observableArrayList();
         try {
-            List<DriverDto> allDriverDto = driverDAO.getAllDriver();
+            List<DriverDto> allDriverDto = driverDAO.getAll();
             for (DriverDto dto : allDriverDto) {
                 obList.add(
                         new DriverTm(
@@ -111,7 +111,7 @@ public class DriverFormController {
         String phoneNo = txtDriverPhoneNo.getText();
 
         try {
-            DriverDto dto = driverDAO.searchDriver(id);
+            DriverDto dto = driverDAO.search(id);
             txtDriverId.setText(dto.getDriverId());
             txtDriverName.setText(dto.getName());
             txtDriverAddress.setText(dto.getAddress());
@@ -149,7 +149,7 @@ public class DriverFormController {
     void btnDeleteOnAction(ActionEvent event) {
         String id = txtDriverId.getText();
         try {
-            boolean isDeleted = driverDAO.deleteDriver(id);
+            boolean isDeleted = driverDAO.delete(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Driver deleted successfully.").show();
             } else {
@@ -170,7 +170,7 @@ public class DriverFormController {
         DriverDto dto = new DriverDto(id, name, address, phoneNo);
 
         try {
-            boolean isSaved = driverDAO.saveDriver(dto);
+            boolean isSaved = driverDAO.save(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Driver saved successfully.").show();
                 clearDriver();
@@ -192,7 +192,7 @@ public class DriverFormController {
         DriverDto dto = new DriverDto(id, name, address, phoneNo);
 
         try {
-            boolean isUpdated = driverDAO.updateDriver(dto);
+            boolean isUpdated = driverDAO.update(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Driver updated successfully.").show();
                 clearDriver();
