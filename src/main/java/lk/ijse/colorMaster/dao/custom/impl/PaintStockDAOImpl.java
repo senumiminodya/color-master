@@ -1,9 +1,12 @@
 package lk.ijse.colorMaster.dao.custom.impl;
 
+import lk.ijse.colorMaster.dao.SQLUtil;
 import lk.ijse.colorMaster.dao.custom.PaintStockDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.OrderPaintDetailsDTO;
 import lk.ijse.colorMaster.dto.PaintStockDto;
+import lk.ijse.colorMaster.entity.PaintStock;
+import lk.ijse.colorMaster.entity.Supplier;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,19 +17,20 @@ import java.util.List;
 
 public class PaintStockDAOImpl implements PaintStockDAO {
     @Override
-    public boolean delete(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM paint_stock WHERE paint_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
         pstm.setString(1,id);
         boolean isDeleted = pstm.executeUpdate()>0;
-        return isDeleted;
+        return isDeleted;*/
+        return SQLUtil.execute("DELETE FROM paint_stock WHERE paint_id = ?",id);
     }
 
     @Override
-    public boolean save(PaintStockDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public boolean save(PaintStock entity) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO paint_stock VALUES(?, ?, ?, ?, ?, ?, ?)";
 
@@ -42,12 +46,13 @@ public class PaintStockDAOImpl implements PaintStockDAO {
 
         boolean isSaved = pstm.executeUpdate() > 0;
 
-        return isSaved;
+        return isSaved;*/
+        return SQLUtil.execute("INSERT INTO paint_stock VALUES(?, ?, ?, ?, ?, ?, ?)",entity.getId(),entity.getName(),entity.getType(),entity.getBaseId(),entity.getSize(),entity.getQty(),entity.getPrice());
     }
 
     @Override
-    public boolean update(PaintStockDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public boolean update(PaintStock entity) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE paint_stock SET name = ?, type = ?, base_id = ?, size = ?, qty = ?, price = ? WHERE paint_id = ?";
 
@@ -62,12 +67,13 @@ public class PaintStockDAOImpl implements PaintStockDAO {
         pstm.setString(7, dto.getId());
 
         boolean isUpdated = pstm.executeUpdate()>0;
-        return isUpdated;
+        return isUpdated;*/
+        return SQLUtil.execute("UPDATE paint_stock SET name = ?, type = ?, base_id = ?, size = ?, qty = ?, price = ? WHERE paint_id = ?",entity.getName(),entity.getType(),entity.getBaseId(),entity.getSize(),entity.getQty(),entity.getPrice(),entity.getId());
     }
 
     @Override
-    public PaintStockDto search(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public List<PaintStock> search(String id) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM paint_stock WHERE paint_id = ?";
 
@@ -87,12 +93,19 @@ public class PaintStockDAOImpl implements PaintStockDAO {
 
             dto = new PaintStockDto(paintId,name,type,baseId,size,qty,price);
         }
-        return dto;
+        return dto;*/
+        ResultSet rst = SQLUtil.execute("SELECT * FROM paint_stock WHERE paint_id = ?",id);
+        ArrayList<PaintStock> searchPaints = new ArrayList<>();
+        while (rst.next()) {
+            PaintStock entity = new PaintStock(rst.getString("paint_id"),rst.getString("name"),rst.getString("type"), rst.getString("base_id"), rst.getString("size"),rst.getInt("qty"),rst.getDouble("price"));
+            searchPaints.add(entity);
+        }
+        return searchPaints;
     }
 
     @Override
-    public List<PaintStockDto> getAll() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public List<PaintStock> getAll() throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM paint_stock";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -114,7 +127,14 @@ public class PaintStockDAOImpl implements PaintStockDAO {
                     )
             );
         }
-        return dtoList;
+        return dtoList;*/
+        ResultSet rst = SQLUtil.execute("SELECT * FROM paint_stock");
+        ArrayList<PaintStock> getAllPaints = new ArrayList<>();
+        while (rst.next()) {
+            PaintStock entity = new PaintStock(rst.getString("paint_id"),rst.getString("name"),rst.getString("type"), rst.getString("base_id"), rst.getString("size"),rst.getInt("qty"),rst.getDouble("price"));
+            getAllPaints.add(entity);
+        }
+        return getAllPaints;
     }
 
     @Override

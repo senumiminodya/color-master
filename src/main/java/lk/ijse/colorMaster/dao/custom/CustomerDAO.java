@@ -3,6 +3,7 @@ package lk.ijse.colorMaster.dao.custom;
 import lk.ijse.colorMaster.dao.CrudDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.CustomerDto;
+import lk.ijse.colorMaster.entity.Customer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface CustomerDAO extends CrudDAO<CustomerDto> {
+public interface CustomerDAO extends CrudDAO<Customer> {
     /*
     CustomerDto search(String id) throws SQLException;
 

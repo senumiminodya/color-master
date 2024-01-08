@@ -1,8 +1,10 @@
 package lk.ijse.colorMaster.dao.custom.impl;
 
+import lk.ijse.colorMaster.dao.SQLUtil;
 import lk.ijse.colorMaster.dao.custom.OrdersDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.OrderDto;
+import lk.ijse.colorMaster.entity.Order;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,8 +46,8 @@ public class OrdersDAOImpl implements OrdersDAO {
     }
 
     @Override
-    public boolean save(OrderDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public boolean save(OrderDto dto) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO orders VALUES(?, ?, ?,?)";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -54,7 +56,8 @@ public class OrdersDAOImpl implements OrdersDAO {
         pstm.setDouble(3, dto.getTotal());
         pstm.setDate(4, dto.getDate());
 
-        return pstm.executeUpdate() > 0;
+        return pstm.executeUpdate() > 0;*/
+        return SQLUtil.execute("INSERT INTO orders VALUES(?, ?, ?,?)",dto.getOrderId(),dto.getCustomerId(),dto.getTotal(),dto.getDate());
     }
 
     @Override
@@ -63,7 +66,7 @@ public class OrdersDAOImpl implements OrdersDAO {
     }
 
     @Override
-    public OrderDto search(String id) throws SQLException {
+    public List<OrderDto> search(String id) throws SQLException {
         return null;
     }
 

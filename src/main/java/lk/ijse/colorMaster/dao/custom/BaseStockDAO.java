@@ -3,6 +3,7 @@ package lk.ijse.colorMaster.dao.custom;
 import lk.ijse.colorMaster.dao.CrudDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.BaseStockDto;
+import lk.ijse.colorMaster.entity.BaseStock;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface BaseStockDAO extends CrudDAO<BaseStockDto> {
+public interface BaseStockDAO extends CrudDAO<BaseStock> {
     /*boolean delete(String id) throws SQLException;
 
     boolean save(BaseStockDto dto) throws SQLException;

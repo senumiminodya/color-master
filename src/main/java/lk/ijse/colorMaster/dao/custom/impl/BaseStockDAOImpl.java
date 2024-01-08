@@ -1,11 +1,9 @@
 package lk.ijse.colorMaster.dao.custom.impl;
 
+import lk.ijse.colorMaster.dao.SQLUtil;
 import lk.ijse.colorMaster.dao.custom.BaseStockDAO;
-import lk.ijse.colorMaster.db.DbConnection;
-import lk.ijse.colorMaster.dto.BaseStockDto;
+import lk.ijse.colorMaster.entity.BaseStock;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,19 +11,21 @@ import java.util.List;
 
 public class BaseStockDAOImpl implements BaseStockDAO {
     @Override
-    public boolean delete(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM base_stock WHERE base_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
         pstm.setString(1,id);
         boolean isDeleted = pstm.executeUpdate()>0;
-        return isDeleted;
+        return isDeleted;*/
+        return SQLUtil.execute("DELETE FROM base_stock WHERE base_id = ?",id);
+
     }
 
     @Override
-    public boolean save(BaseStockDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public boolean save(BaseStock entity) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO base_stock VALUES(?, ?, ?, ?, ?, ?)";
         //String sup_id = "SELECT sup_id FROM supplier WHERE name = ?";
@@ -41,12 +41,13 @@ public class BaseStockDAOImpl implements BaseStockDAO {
 
         boolean isSaved = pstm.executeUpdate() > 0;
 
-        return isSaved;
+        return isSaved;*/
+        return SQLUtil.execute("SELECT sup_id FROM supplier WHERE name = ?",entity.getId(),entity.getType(),entity.getSupName(),entity.getSize(),entity.getQty(),entity.getPrice());
     }
 
     @Override
-    public boolean update(BaseStockDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public boolean update(BaseStock entity) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE base_stock SET base_type = ?, sup_id = ?, size = ?, qty = ?, price = ? WHERE base_id = ?";
         // String sup_id = "SELECT sup_id FROM supplier WHERE name = ?";
@@ -62,12 +63,13 @@ public class BaseStockDAOImpl implements BaseStockDAO {
         pstm.setString(6, dto.getId());
 
         boolean isUpdated = pstm.executeUpdate()>0;
-        return isUpdated;
+        return isUpdated;*/
+        return SQLUtil.execute("UPDATE base_stock SET base_type = ?, sup_id = ?, size = ?, qty = ?, price = ? WHERE base_id = ?",entity.getType(),entity.getSupName(),entity.getSize(),entity.getQty(),entity.getPrice(),entity.getId());
     }
 
     @Override
-    public BaseStockDto search(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public List<BaseStock> search(String id) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM base_stock WHERE base_id = ?";
 
@@ -75,7 +77,7 @@ public class BaseStockDAOImpl implements BaseStockDAO {
         pstm.setString(1, id);
         ResultSet resultSet = pstm.executeQuery();
 
-        BaseStockDto dto = null;
+        BaseStock entity = null;
         if (resultSet.next()) {
             String baseId = resultSet.getString(1);
             String type = resultSet.getString(2);
@@ -84,24 +86,31 @@ public class BaseStockDAOImpl implements BaseStockDAO {
             int qty = resultSet.getInt(5);
             double price = resultSet.getDouble(6);
 
-            dto = new BaseStockDto(baseId, type, supId, size, qty, price);
+            entity = new BaseStock(baseId, type, supId, size, qty, price);
         }
-        return dto;
+        return entity;*/
+        ResultSet rst = SQLUtil.execute("SELECT * FROM base_stock WHERE base_id = ?",id);
+        ArrayList<BaseStock> searchBases = new ArrayList<>();
+        while (rst.next()) {
+            BaseStock entity = new BaseStock(rst.getString("base_id"),rst.getString("base_type"),rst.getString("sup_id"), rst.getString("size"),rst.getInt("qty"),rst.getDouble("price"));
+            searchBases.add(entity);
+        }
+        return searchBases;
     }
 
     @Override
-    public List<BaseStockDto> getAll() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public List<BaseStock> getAll() throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM base_stock";
         PreparedStatement pstm = connection.prepareStatement(sql);
         ResultSet resultSet = pstm.executeQuery();
 
-        ArrayList<BaseStockDto> dtoList = new ArrayList<>();
+        ArrayList<BaseStock> entityList = new ArrayList<>();
 
         while(resultSet.next()) {
-            dtoList.add(
-                    new BaseStockDto(
+            entityList.add(
+                    new BaseStock(
                             resultSet.getString(1),
                             resultSet.getString(2),
                             resultSet.getString(3),
@@ -111,6 +120,13 @@ public class BaseStockDAOImpl implements BaseStockDAO {
                     )
             );
         }
-        return dtoList;
+        return entityList;*/
+        ResultSet rst = SQLUtil.execute("SELECT * FROM base_stock");
+        ArrayList<BaseStock> getAllBases = new ArrayList<>();
+        while (rst.next()) {
+            BaseStock entity = new BaseStock(rst.getString("base_id"),rst.getString("base_type"),rst.getString("sup_id"), rst.getNString("size"),rst.getInt("qty"),rst.getDouble("price"));
+            getAllBases.add(entity);
+        }
+        return getAllBases;
     }
 }

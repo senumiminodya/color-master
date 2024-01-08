@@ -3,6 +3,7 @@ package lk.ijse.colorMaster.dao.custom;
 import lk.ijse.colorMaster.dao.CrudDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.OrderDto;
+import lk.ijse.colorMaster.entity.Order;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

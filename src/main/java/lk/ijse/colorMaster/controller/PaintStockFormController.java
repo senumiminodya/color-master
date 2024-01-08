@@ -12,8 +12,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import lk.ijse.colorMaster.dao.custom.impl.BaseStockDAOImpl;
-import lk.ijse.colorMaster.dao.custom.impl.PaintStockDAOImpl;
+import lk.ijse.colorMaster.bo.custom.BaseStockFormBO;
+import lk.ijse.colorMaster.bo.custom.impl.BaseStockFormBOImpl;
+import lk.ijse.colorMaster.bo.custom.PaintStockBO;
+import lk.ijse.colorMaster.bo.custom.impl.PaintStockFormBOImpl;
 import lk.ijse.colorMaster.dto.BaseStockDto;
 import lk.ijse.colorMaster.dto.PaintStockDto;
 import lk.ijse.colorMaster.dto.cm.BaseCm;
@@ -90,9 +92,11 @@ public class PaintStockFormController {
     private JFXButton updateBtn;
 
     //private PaintStockModel model = new PaintStockModel();
-    private PaintStockDAOImpl paintStockDAO = new PaintStockDAOImpl();
+    //private PaintStockDAOImpl paintStockDAO = new PaintStockDAOImpl();
     //private BaseStockModel baseStockModel = new BaseStockModel();
-    private BaseStockDAOImpl baseStockDAO = new BaseStockDAOImpl();
+    //private BaseStockDAOImpl baseStockDAO = new BaseStockDAOImpl();
+    private BaseStockFormBO baseStockBO = new BaseStockFormBOImpl();
+    private PaintStockBO paintStockBO = new PaintStockFormBOImpl();
 
     public void initialize() {
         cmbBaseId.setConverter(new StringConverter<BaseCm>() {
@@ -117,7 +121,7 @@ public class PaintStockFormController {
     private void loadAllItems() {
         ObservableList<ItemTm> obList = FXCollections.observableArrayList();
         try {
-            List<PaintStockDto> allPaintDto = paintStockDAO.getAll();
+            List<PaintStockDto> allPaintDto = paintStockBO.getAllPaints();
             for (PaintStockDto dto : allPaintDto) {
                 obList.add(
                         new ItemTm(
@@ -133,6 +137,8 @@ public class PaintStockFormController {
             }
             tblPaintItems.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -151,7 +157,7 @@ public class PaintStockFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<BaseStockDto> idList = baseStockDAO.getAll();
+            List<BaseStockDto> idList = baseStockBO.getAllBaseStock();
 
             /*for (BaseStockDto dto : idList) {
                 obList.add(dto.getId());
@@ -159,6 +165,8 @@ public class PaintStockFormController {
 
             //cmbBaseId.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -195,7 +203,7 @@ public class PaintStockFormController {
     void btnDeleteOnAction(ActionEvent event) {
         String id = txtItemId.getText();
         try {
-            boolean isDeleted = paintStockDAO.delete(id);
+            boolean isDeleted = paintStockBO.deletePaints(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Paint deleted successfully.").show();
             } else {
@@ -203,6 +211,8 @@ public class PaintStockFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -219,7 +229,7 @@ public class PaintStockFormController {
         PaintStockDto dto = new PaintStockDto(id, name, type, baseId, size, qty, price);
 
         try {
-            boolean isSaved = paintStockDAO.save(dto);
+            boolean isSaved = paintStockBO.savePaints(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Paint saved successfully.").show();
                 clearPaints();
@@ -228,6 +238,8 @@ public class PaintStockFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -244,7 +256,7 @@ public class PaintStockFormController {
         PaintStockDto dto = new PaintStockDto(id, name, type, baseId, size, qty, price);
 
         try {
-            boolean isUpdated = paintStockDAO.update(dto);
+            boolean isUpdated = paintStockBO.updatePaints(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Paint updated successfully.").show();
                 clearPaints();
@@ -253,6 +265,8 @@ public class PaintStockFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -260,9 +274,13 @@ public class PaintStockFormController {
     @FXML
     void itemIdSearchOnAction(ActionEvent event) {
         String id = txtItemId.getText();
+        PaintStockDto dto = new PaintStockDto();
 
         try {
-            PaintStockDto dto = paintStockDAO.search(id);
+            List<PaintStockDto> paintStockDtos = paintStockBO.searchPaints(id);
+            for (PaintStockDto dtos: paintStockDtos) {
+                dto = new PaintStockDto(dtos.getId(), dtos.getName(), dtos.getType(), dtos.getBaseId(), dtos.getSize(), dtos.getQty(), dtos.getPrice());
+            }
 
             if (dto != null) {
                 txtItemId.setText(dto.getId());
@@ -283,12 +301,14 @@ public class PaintStockFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public void setComboBox() {
         try {
-            List<BaseStockDto> allBases = baseStockDAO.getAll();
+            List<BaseStockDto> allBases = baseStockBO.getAllBaseStock();
             ArrayList<BaseCm> objects = new ArrayList<>();
             for (BaseStockDto ob : allBases) {
                 BaseCm baseCm = new BaseCm();
@@ -302,6 +322,8 @@ public class PaintStockFormController {
             }
             cmbBaseId.setItems(FXCollections.observableArrayList(objects));
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

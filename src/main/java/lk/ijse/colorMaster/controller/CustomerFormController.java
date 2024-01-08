@@ -16,7 +16,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.custom.impl.CustomerDAOImpl;
+import lk.ijse.colorMaster.bo.custom.CustomerFormBO;
+import lk.ijse.colorMaster.bo.custom.impl.CustomerFormBOImpl;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.tm.CustomerTm;
@@ -80,7 +81,8 @@ public class CustomerFormController {
     private JFXButton customerReportBtn;
 
     //private CustomerModel model = new CustomerModel();
-    private CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+    //private CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+    private CustomerFormBO customerFormBO = new CustomerFormBOImpl();
     private AnchorPane root;
 
     public void initialize() {
@@ -92,7 +94,7 @@ public class CustomerFormController {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
         try {
             //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            List<CustomerDto> allCustomerDto = customerDAO.getAll();
+            List<CustomerDto> allCustomerDto = customerFormBO.getAllCustomer();
             for (CustomerDto dto : allCustomerDto) {
                 obList.add(
                         new CustomerTm(
@@ -105,6 +107,8 @@ public class CustomerFormController {
             }
             tblCustomer.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -123,9 +127,14 @@ public class CustomerFormController {
         String address = txtAddress.getText();
         String telNo = txtPhoneNo.getText();
 
+        CustomerDto dto = new CustomerDto();
+
         try {
             //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            CustomerDto dto = customerDAO.search(id);
+            List<CustomerDto> customerDtos = customerFormBO.searchCustomer(id);
+            for (CustomerDto dtos: customerDtos) {
+                dto = new CustomerDto(dtos.getId(), dtos.getName(), dtos.getAddress(), dtos.getPhoneNo());
+            }
 
             if (dto != null) {
                 txtId.setText(dto.getId());
@@ -137,6 +146,8 @@ public class CustomerFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -170,7 +181,7 @@ public class CustomerFormController {
         String id = txtId.getText();
         try {
             //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            boolean isDeleted = customerDAO.delete(id);
+            boolean isDeleted = customerFormBO.deleteCustomer(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Customer deleted successfully.").show();
                 setCellValueFactory();
@@ -179,6 +190,8 @@ public class CustomerFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -199,7 +212,7 @@ public class CustomerFormController {
 
         try {
             //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            boolean isSaved = customerDAO.save(dto);
+            boolean isSaved = customerFormBO.saveCustomer(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Customer saved successfully.").show();
                 clearCustomer();
@@ -209,6 +222,8 @@ public class CustomerFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -223,7 +238,7 @@ public class CustomerFormController {
 
         try {
             //CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            boolean isUpdated = customerDAO.update(dto);
+            boolean isUpdated = customerFormBO.updateCustomer(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Customer updated successfully.").show();
                 clearCustomer();
@@ -233,6 +248,8 @@ public class CustomerFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

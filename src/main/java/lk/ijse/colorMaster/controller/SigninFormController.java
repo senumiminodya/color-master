@@ -13,7 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.custom.impl.UserDAOImpl;
+import lk.ijse.colorMaster.bo.custom.impl.SigninFormBOImpl;
+import lk.ijse.colorMaster.bo.custom.UserBO;
 //import lk.ijse.colorMaster.model.SignInModel;
 import lk.ijse.colorMaster.dto.UserDto;
 import lk.ijse.colorMaster.util.Regex;
@@ -40,6 +41,8 @@ public class SigninFormController {
     @FXML
     private PasswordField txtPw;
 
+
+
     @FXML
     void btnSignInOnAction(ActionEvent event) throws SQLException {
         String userName = txtName.getText();
@@ -52,15 +55,20 @@ public class SigninFormController {
             return;
         } else {
             // Save user in the database
-            UserDAOImpl userDAO = new UserDAOImpl();
+            //UserDAOImpl userDAO = new UserDAOImpl();
+            UserBO userBO = new SigninFormBOImpl();
             UserDto userDto = new UserDto(userName, password, email);
-            if (userDAO.save(userDto)) {
-                new Alert(Alert.AlertType.INFORMATION, "User saved successfully!").show();
-                txtName.clear();
-                txtPw.clear();
-                txtEmail.clear();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Error saving user to the database").show();
+            try {
+                if (userBO.saveUser(userDto)) {
+                    new Alert(Alert.AlertType.INFORMATION, "User saved successfully!").show();
+                    txtName.clear();
+                    txtPw.clear();
+                    txtEmail.clear();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Error saving user to the database").show();
+                }
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }
     }

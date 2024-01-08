@@ -14,9 +14,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import lk.ijse.colorMaster.bo.custom.CustomerFormBO;
+import lk.ijse.colorMaster.bo.custom.impl.CustomerFormBOImpl;
+import lk.ijse.colorMaster.bo.custom.PaintStockBO;
+import lk.ijse.colorMaster.bo.custom.impl.PaintStockFormBOImpl;
 import lk.ijse.colorMaster.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.colorMaster.dao.custom.impl.OrdersDAOImpl;
-import lk.ijse.colorMaster.dao.custom.impl.PaintStockDAOImpl;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.CustomerDto;
 import lk.ijse.colorMaster.dto.OrderDto;
@@ -110,9 +113,11 @@ public class OrdersFormController {
     private JFXButton viewOrderBtn;
 
     //private CustomerModel customerModel = new CustomerModel();
-    private CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+    //private CustomerDAOImpl customerDAO = new CustomerDAOImpl();
     //private PaintStockModel itemModel = new PaintStockModel();
-    private PaintStockDAOImpl paintStockDAO = new PaintStockDAOImpl();
+    //private PaintStockDAOImpl paintStockDAO = new PaintStockDAOImpl();
+    private CustomerFormBO customerFormBO = new CustomerFormBOImpl();
+    private PaintStockBO paintStockBO = new PaintStockFormBOImpl();
     private ObservableList<CartTm> obList = FXCollections.observableArrayList();
 
     public void initialize() {
@@ -153,7 +158,7 @@ public class OrdersFormController {
 
         try {
             CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            List<CustomerDto> idList = customerDAO.getAll();
+            List<CustomerDto> idList = customerFormBO.getAllCustomer();
 
             for (CustomerDto dto : idList) {
                 obList.add(dto);
@@ -162,13 +167,15 @@ public class OrdersFormController {
             cmbCustomerId.setItems(obList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
     private void loadItemIds() {
         ObservableList<PaintStockDto> obList = FXCollections.observableArrayList();
 
         try {
-            List<PaintStockDto> idList = paintStockDAO.getAll();
+            List<PaintStockDto> idList = paintStockBO.getAllPaints();
 
             for (PaintStockDto dto : idList) {
                 obList.add(dto);
@@ -176,6 +183,8 @@ public class OrdersFormController {
 
             cmbItemCode.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

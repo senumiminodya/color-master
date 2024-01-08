@@ -12,8 +12,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import lk.ijse.colorMaster.dao.custom.impl.BaseStockDAOImpl;
-import lk.ijse.colorMaster.dao.custom.impl.SupplierDAOImpl;
+import lk.ijse.colorMaster.bo.custom.BaseStockFormBO;
+import lk.ijse.colorMaster.bo.custom.impl.BaseStockFormBOImpl;
+import lk.ijse.colorMaster.bo.custom.SupplierBO;
+import lk.ijse.colorMaster.bo.custom.impl.SupplierFormBOImpl;
 import lk.ijse.colorMaster.dto.BaseStockDto;
 import lk.ijse.colorMaster.dto.SupplierDto;
 import lk.ijse.colorMaster.dto.cm.SupplierCm;
@@ -84,9 +86,12 @@ public class BaseStockFormController {
     private JFXButton updateBtn;
 
     //private BaseStockModel model = new BaseStockModel();
-    private BaseStockDAOImpl baseStockDAO = new BaseStockDAOImpl();
+    //private BaseStockDAOImpl baseStockDAO = new BaseStockDAOImpl();
     //private SupplierModel supModel = new SupplierModel();
-    private SupplierDAOImpl supplierDAO = new SupplierDAOImpl();
+    //private SupplierDAOImpl supplierDAO = new SupplierDAOImpl();
+
+    private BaseStockFormBO baseStockBO = new BaseStockFormBOImpl();
+    private SupplierBO supplierBO = new SupplierFormBOImpl();
 
     public void initialize() {
         cmbSupplierName.setConverter(new StringConverter<SupplierCm>() {
@@ -108,7 +113,7 @@ public class BaseStockFormController {
     private void loadAllBases() {
         ObservableList<BaseStockTm> obList = FXCollections.observableArrayList();
         try {
-            List<BaseStockDto> allBaseDto = baseStockDAO.getAll();
+            List<BaseStockDto> allBaseDto = baseStockBO.getAllBaseStock();
             for (BaseStockDto dto : allBaseDto) {
                 obList.add(
                         new BaseStockTm(
@@ -123,6 +128,8 @@ public class BaseStockFormController {
             }
             tblBases.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -168,7 +175,7 @@ public class BaseStockFormController {
     void btnDeleteOnAction(ActionEvent event) throws SQLException {
         String id = txtBaseId.getText();
         try {
-            boolean isDeleted = baseStockDAO.delete(id);
+            boolean isDeleted = baseStockBO.deleteBaseStock(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Base deleted successfully.").show();
             } else {
@@ -176,6 +183,8 @@ public class BaseStockFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -191,7 +200,7 @@ public class BaseStockFormController {
         BaseStockDto dto = new BaseStockDto(id, type, name, size, qty, price);
 
         try {
-            boolean isSaved = baseStockDAO.save(dto);
+            boolean isSaved = baseStockBO.saveBaseStock(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Base saved successfully.").show();
                 clearBases();
@@ -200,6 +209,8 @@ public class BaseStockFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -215,7 +226,7 @@ public class BaseStockFormController {
         BaseStockDto dto = new BaseStockDto(id, type, name, size, qty, price);
 
         try {
-            boolean isUpdated = baseStockDAO.update(dto);
+            boolean isUpdated = baseStockBO.updateBaseStock(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Base updated successfully.").show();
                 clearBases();
@@ -224,15 +235,21 @@ public class BaseStockFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @FXML
     void txtBaseSearchOnAction(ActionEvent event) throws SQLException {
         String id = txtBaseId.getText();
+        BaseStockDto dto = new BaseStockDto();
 
         try {
-            BaseStockDto dto = baseStockDAO.search(id);
+            List<BaseStockDto> baseStockDtos = baseStockBO.searchBaseStock(id);
+            for (BaseStockDto dtos: baseStockDtos) {
+                dto = new BaseStockDto(dtos.getId(), dtos.getType(), dtos.getSupName(), dtos.getSize(),dtos.getQty(),dtos.getPrice());
+            }
 
             if (dto != null) {
                 txtBaseId.setText(dto.getId());
@@ -246,12 +263,14 @@ public class BaseStockFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public void setComboBox() {
         try {
-            List<SupplierDto> allSup = supplierDAO.getAll();
+            List<SupplierDto> allSup = supplierBO.getAllSupplier();
             System.out.println(allSup.size());
             ArrayList<SupplierCm> objects = new ArrayList<>();
             for (SupplierDto sup : allSup) {
@@ -265,6 +284,8 @@ public class BaseStockFormController {
             cmbSupplierName.setItems(FXCollections.observableArrayList(objects));
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -44,31 +44,35 @@ public class LoginFormController {
 
         // Check if the user exists in the database
         UserDAOImpl userDAO = new UserDAOImpl();
-        if (userDAO.validateUser(userName, password)) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Login successful!");
+        try {
+            if (userDAO.validateUser(userName, password)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Login successful!");
 
-            // Event handler for the default "OK" button
-            alert.setOnHidden(e -> {
-                try {
-                    // Load the dashboard content
-                    Parent dashboard = FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
-                    Scene dashboardScene = new Scene(dashboard);
+                // Event handler for the default "OK" button
+                alert.setOnHidden(e -> {
+                    try {
+                        // Load the dashboard content
+                        Parent dashboard = FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+                        Scene dashboardScene = new Scene(dashboard);
 
-                    // Get the current stage (login window)
-                    Stage currentStage = (Stage) loginBtn.getScene().getWindow();
-                    currentStage.setTitle("Dash Board Form");
-                    currentStage.setScene(dashboardScene);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
+                        // Get the current stage (login window)
+                        Stage currentStage = (Stage) loginBtn.getScene().getWindow();
+                        currentStage.setTitle("Dash Board Form");
+                        currentStage.setScene(dashboardScene);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
 
-            alert.show();
-        } else {
-            new Alert(Alert.AlertType.ERROR, "Invalid username or password").show();
-            txtName.clear();
-            txtPw.clear();
-            txtName.requestFocus();
+                alert.show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Invalid username or password").show();
+                txtName.clear();
+                txtPw.clear();
+                txtName.requestFocus();
+            }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

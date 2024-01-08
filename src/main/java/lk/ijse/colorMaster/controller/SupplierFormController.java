@@ -15,7 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.custom.impl.SupplierDAOImpl;
+import lk.ijse.colorMaster.bo.custom.SupplierBO;
+import lk.ijse.colorMaster.bo.custom.impl.SupplierFormBOImpl;
 import lk.ijse.colorMaster.dto.SupplierDto;
 import lk.ijse.colorMaster.dto.tm.SupplierTm;
 //import lk.ijse.colorMaster.model.SupplierModel;
@@ -71,7 +72,8 @@ public class SupplierFormController {
     private JFXButton updateBtn;
 
     //private SupplierModel model = new SupplierModel();
-    private SupplierDAOImpl supplierDAO = new SupplierDAOImpl();
+    private SupplierBO supplierBO = new SupplierFormBOImpl();
+    //private SupplierDAOImpl supplierDAO = new SupplierDAOImpl();
 
     public void initialize() {
         setCellValueFactory();
@@ -81,7 +83,7 @@ public class SupplierFormController {
     private void loadAllSuppliers() {
         ObservableList<SupplierTm> obList = FXCollections.observableArrayList();
         try {
-            List<SupplierDto> allSupplierDto = supplierDAO.getAll();
+            List<SupplierDto> allSupplierDto = supplierBO.getAllSupplier();
             for (SupplierDto dto : allSupplierDto) {
                 obList.add(
                         new SupplierTm(
@@ -94,6 +96,8 @@ public class SupplierFormController {
             }
             tblSupplier.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -134,7 +138,7 @@ public class SupplierFormController {
     void btnDeleteOnAction(ActionEvent event) {
         String id = txtSupplierId.getText();
         try {
-            boolean isDeleted = supplierDAO.delete(id);
+            boolean isDeleted = supplierBO.deleteSupplier(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Supplier deleted successfully.").show();
             } else {
@@ -142,6 +146,8 @@ public class SupplierFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -155,7 +161,7 @@ public class SupplierFormController {
         SupplierDto dto = new SupplierDto(id, name, address, phoneNo);
 
         try {
-            boolean isSaved = supplierDAO.save(dto);
+            boolean isSaved = supplierBO.saveSupplier(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Supplier saved successfully.").show();
                 clearSupplier();
@@ -164,6 +170,8 @@ public class SupplierFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -177,7 +185,7 @@ public class SupplierFormController {
         SupplierDto dto = new SupplierDto(id, name, address, phoneNo);
 
         try {
-            boolean isUpdated = supplierDAO.update(dto);
+            boolean isUpdated = supplierBO.updateSupplier(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Supplier updated successfully.").show();
                 clearSupplier();
@@ -186,6 +194,8 @@ public class SupplierFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -195,15 +205,21 @@ public class SupplierFormController {
         String name = txtSupplierName.getText();
         String phoneNo = txtSupplierPhoneNo.getText();
         String product = txtSupplierProduct.getText();
+        SupplierDto dto = new SupplierDto();
 
         try {
-            SupplierDto dto = supplierDAO.search(id);
+            List<SupplierDto> supplierDtos = supplierBO.searchSupplier(id);
+            for (SupplierDto dtos: supplierDtos) {
+                dto = new SupplierDto(dtos.getId(), dtos.getName(), dtos.getPhoneNo(), dtos.getProduct());
+            }
             txtSupplierId.setText(dto.getId());
             txtSupplierName.setText(dto.getName());
             txtSupplierPhoneNo.setText(dto.getPhoneNo());
             txtSupplierProduct.setText(dto.getProduct());
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
     @FXML

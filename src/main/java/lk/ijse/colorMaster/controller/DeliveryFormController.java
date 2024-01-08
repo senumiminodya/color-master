@@ -14,7 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.custom.impl.VehicleDAOImpl;
+import lk.ijse.colorMaster.bo.custom.DeliveryBO;
+import lk.ijse.colorMaster.bo.custom.impl.DeliveryFormBOImpl;
 import lk.ijse.colorMaster.dto.DeliveryDto;
 import lk.ijse.colorMaster.dto.tm.DeliveryTm;
 //import lk.ijse.colorMaster.model.DeliveryModel;
@@ -63,7 +64,8 @@ public class DeliveryFormController {
     private JFXButton updateBtn;
 
     //private DeliveryModel model = new DeliveryModel();
-    private VehicleDAOImpl vehicleDAO = new VehicleDAOImpl();
+    //private VehicleDAOImpl vehicleDAO = new VehicleDAOImpl();
+    private DeliveryBO vehicleBO = new DeliveryFormBOImpl();
 
     public void initialize() {
         loadAllVehicles();
@@ -73,7 +75,7 @@ public class DeliveryFormController {
     private void loadAllVehicles() {
         ObservableList<DeliveryTm> obList = FXCollections.observableArrayList();
         try {
-            List<DeliveryDto> allVehicleDto = vehicleDAO.getAll();
+            List<DeliveryDto> allVehicleDto = vehicleBO.getAllVehicle();
             for (DeliveryDto dto : allVehicleDto) {
                 obList.add(
                         new DeliveryTm(
@@ -85,6 +87,8 @@ public class DeliveryFormController {
             }
             tblDelivery.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -124,7 +128,7 @@ public class DeliveryFormController {
     void btnDeleteOnAction(ActionEvent event) {
         String id = txtVehicleId.getText();
         try {
-            boolean isDeleted = vehicleDAO.delete(id);
+            boolean isDeleted = vehicleBO.deleteVehicle(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Vehicle deleted successfully.").show();
             } else {
@@ -132,6 +136,8 @@ public class DeliveryFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -144,7 +150,7 @@ public class DeliveryFormController {
         DeliveryDto dto = new DeliveryDto(id, name, phoneNo);
 
         try {
-            boolean isSaved = vehicleDAO.save(dto);
+            boolean isSaved = vehicleBO.saveVehicle(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Vehicle saved successfully.").show();
                 clearVehicles();
@@ -153,6 +159,8 @@ public class DeliveryFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -165,7 +173,7 @@ public class DeliveryFormController {
         DeliveryDto dto = new DeliveryDto(id, name, phoneNo);
 
         try {
-            boolean isUpdated = vehicleDAO.update(dto);
+            boolean isUpdated = vehicleBO.updateVehicle(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Vehicle updated successfully.").show();
                 clearVehicles();
@@ -174,6 +182,8 @@ public class DeliveryFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -182,14 +192,20 @@ public class DeliveryFormController {
         String id = txtVehicleId.getText();
         String name = txtOwnerName.getText();
         String phoneNo = txtOwnerPhoneNo.getText();
+        DeliveryDto dto = new DeliveryDto();
 
         try {
-            DeliveryDto dto = vehicleDAO.search(id);
+            List<DeliveryDto> vehicleDtos = vehicleBO.searchVehicle(id);
+            for (DeliveryDto dtos: vehicleDtos) {
+                dto = new DeliveryDto(dtos.getId(), dtos.getOwnerName(), dtos.getOwnerPhoneNo());
+            }
             txtVehicleId.setText(dto.getId());
             txtOwnerName.setText(dto.getOwnerName());
             txtOwnerPhoneNo.setText(dto.getOwnerPhoneNo());
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
     @FXML

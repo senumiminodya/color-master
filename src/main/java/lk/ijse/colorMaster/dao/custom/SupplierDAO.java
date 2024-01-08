@@ -1,16 +1,9 @@
 package lk.ijse.colorMaster.dao.custom;
 
 import lk.ijse.colorMaster.dao.CrudDAO;
-import lk.ijse.colorMaster.db.DbConnection;
-import lk.ijse.colorMaster.dto.SupplierDto;
+import lk.ijse.colorMaster.entity.Supplier;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-public interface SupplierDAO extends CrudDAO<SupplierDto> {
+public interface SupplierDAO extends CrudDAO<Supplier> {
     /*
     boolean delete(String id) throws SQLException;
 

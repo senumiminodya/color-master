@@ -1,11 +1,10 @@
 package lk.ijse.colorMaster.dao.custom.impl;
 
+import lk.ijse.colorMaster.dao.SQLUtil;
 import lk.ijse.colorMaster.dao.custom.DriverDAO;
-import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.DriverDto;
+import lk.ijse.colorMaster.entity.Driver;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,8 +12,8 @@ import java.util.List;
 
 public class DriverDAOImpl implements DriverDAO {
     @Override
-    public DriverDto search(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public List<Driver> search(String id) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM driver WHERE driver_id = ?";
 
@@ -29,11 +28,18 @@ public class DriverDAOImpl implements DriverDAO {
             String phoneNo = resultSet.getString(4);
             dto = new DriverDto(driverId,name,address,phoneNo);
         }
-        return dto;
+        return dto;*/
+        ResultSet rst = SQLUtil.execute("SELECT * FROM driver WHERE driver_id = ?");
+        ArrayList<Driver> searchDrivers = new ArrayList<>();
+        while (rst.next()) {
+            Driver entity = new Driver(rst.getString("driver_id"),rst.getString("name"),rst.getString("address"), rst.getString("phone_no"));
+            searchDrivers.add(entity);
+        }
+        return searchDrivers;
     }
     @Override
-    public boolean save(DriverDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public boolean save(Driver entity) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO driver VALUES(?, ?, ?, ?)";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -44,22 +50,24 @@ public class DriverDAOImpl implements DriverDAO {
 
         boolean isSaved = pstm.executeUpdate() > 0;
 
-        return isSaved;
+        return isSaved;*/
+        return SQLUtil.execute("INSERT INTO driver VALUES(?, ?, ?, ?)",entity.getDriverId(),entity.getName(),entity.getAddress(),entity.getPhoneNo());
     }
     @Override
-    public boolean delete(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM driver WHERE driver_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
         pstm.setString(1,id);
         boolean isDeleted = pstm.executeUpdate()>0;
-        return isDeleted;
+        return isDeleted;*/
+        return SQLUtil.execute("DELETE FROM driver WHERE driver_id = ?",id);
     }
 
     @Override
-    public boolean update(DriverDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public boolean update(Driver entity) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE driver SET name = ?, address = ?, phone_no = ? WHERE driver_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -70,11 +78,12 @@ public class DriverDAOImpl implements DriverDAO {
         pstm.setString(4, dto.getDriverId());
 
         boolean isUpdated = pstm.executeUpdate()>0;
-        return isUpdated;
+        return isUpdated;*/
+        return SQLUtil.execute("UPDATE driver SET name = ?, address = ?, phone_no = ? WHERE driver_id = ?",entity.getName(),entity.getAddress(),entity.getPhoneNo(),entity.getDriverId());
     }
     @Override
-    public List<DriverDto> getAll() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public List<Driver> getAll() throws SQLException, ClassNotFoundException {
+        /*Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM driver";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -92,6 +101,13 @@ public class DriverDAOImpl implements DriverDAO {
                     )
             );
         }
-        return dtoList;
+        return dtoList;*/
+        ResultSet rst = SQLUtil.execute("SELECT * FROM driver");
+        ArrayList<Driver> getAllDrivers = new ArrayList<>();
+        while (rst.next()) {
+            Driver entity = new Driver(rst.getString("driver_id"),rst.getString("name"),rst.getString("address"), rst.getString("phone_no"));
+            getAllDrivers.add(entity);
+        }
+        return getAllDrivers;
     }
 }

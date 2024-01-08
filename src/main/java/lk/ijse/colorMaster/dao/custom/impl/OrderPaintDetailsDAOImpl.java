@@ -1,5 +1,6 @@
 package lk.ijse.colorMaster.dao.custom.impl;
 
+import lk.ijse.colorMaster.dao.SQLUtil;
 import lk.ijse.colorMaster.dao.custom.OrderPaintDetailsDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.OrderPaintDetailsDTO;
@@ -41,7 +42,7 @@ public class OrderPaintDetailsDAOImpl implements OrderPaintDetailsDAO {
     }
 
     @Override
-    public OrderPaintDetailsDTO search(String id) throws SQLException {
+    public List<OrderPaintDetailsDTO> search(String id) throws SQLException {
         return null;
     }
 

@@ -4,6 +4,7 @@ import lk.ijse.colorMaster.dao.CrudDAO;
 import lk.ijse.colorMaster.db.DbConnection;
 import lk.ijse.colorMaster.dto.OrderPaintDetailsDTO;
 import lk.ijse.colorMaster.dto.PaintStockDto;
+import lk.ijse.colorMaster.entity.PaintStock;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface PaintStockDAO extends CrudDAO<PaintStockDto> {
+public interface PaintStockDAO extends CrudDAO<PaintStock> {
     /*
     boolean delete(String id) throws SQLException;
 

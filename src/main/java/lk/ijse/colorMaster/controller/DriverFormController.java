@@ -15,7 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import lk.ijse.colorMaster.dao.custom.impl.DriverDAOImpl;
+import lk.ijse.colorMaster.bo.custom.DriverBO;
+import lk.ijse.colorMaster.bo.custom.impl.DriverFormBOImpl;
 import lk.ijse.colorMaster.dto.DriverDto;
 import lk.ijse.colorMaster.dto.tm.DriverTm;
 //import lk.ijse.colorMaster.model.DriverModel;
@@ -69,7 +70,8 @@ public class DriverFormController {
     @FXML
     private JFXButton updateBtn;
     //private DriverModel model = new DriverModel();
-    private DriverDAOImpl driverDAO = new DriverDAOImpl();
+    //private DriverDAOImpl driverDAO = new DriverDAOImpl();
+    private DriverBO driverBO = new DriverFormBOImpl();
 
     public void initialize() {
         setCellValueFactory();
@@ -79,7 +81,7 @@ public class DriverFormController {
     private void loadAllDrivers() {
         ObservableList<DriverTm> obList = FXCollections.observableArrayList();
         try {
-            List<DriverDto> allDriverDto = driverDAO.getAll();
+            List<DriverDto> allDriverDto = driverBO.getAllDriver();
             for (DriverDto dto : allDriverDto) {
                 obList.add(
                         new DriverTm(
@@ -92,6 +94,8 @@ public class DriverFormController {
             }
             tblDriver.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -109,15 +113,21 @@ public class DriverFormController {
         String name = txtDriverName.getText();
         String address = txtDriverAddress.getText();
         String phoneNo = txtDriverPhoneNo.getText();
+        DriverDto dto = new DriverDto();
 
         try {
-            DriverDto dto = driverDAO.search(id);
+            List<DriverDto> driverDtos = driverBO.searchDriver(id);
+            for (DriverDto dtos: driverDtos) {
+                dto = new DriverDto(dtos.getDriverId(), dtos.getName(), dtos.getAddress(), dtos.getPhoneNo());
+            }
             txtDriverId.setText(dto.getDriverId());
             txtDriverName.setText(dto.getName());
             txtDriverAddress.setText(dto.getAddress());
             txtDriverPhoneNo.setText(dto.getPhoneNo());
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -149,7 +159,7 @@ public class DriverFormController {
     void btnDeleteOnAction(ActionEvent event) {
         String id = txtDriverId.getText();
         try {
-            boolean isDeleted = driverDAO.delete(id);
+            boolean isDeleted = driverBO.deleteDriver(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Driver deleted successfully.").show();
             } else {
@@ -157,6 +167,8 @@ public class DriverFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -170,7 +182,7 @@ public class DriverFormController {
         DriverDto dto = new DriverDto(id, name, address, phoneNo);
 
         try {
-            boolean isSaved = driverDAO.save(dto);
+            boolean isSaved = driverBO.saveDriver(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Driver saved successfully.").show();
                 clearDriver();
@@ -179,6 +191,8 @@ public class DriverFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -192,7 +206,7 @@ public class DriverFormController {
         DriverDto dto = new DriverDto(id, name, address, phoneNo);
 
         try {
-            boolean isUpdated = driverDAO.update(dto);
+            boolean isUpdated = driverBO.updateDriver(dto);
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Driver updated successfully.").show();
                 clearDriver();
@@ -201,6 +215,8 @@ public class DriverFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
     @FXML
